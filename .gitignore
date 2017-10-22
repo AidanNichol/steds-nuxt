@@ -1,0 +1,17 @@
+# dependencies
+node_modules
+
+# logs
+npm-debug.log
+
+# Nuxt build
+.nuxt
+
+# Nuxt generate
+dist
+
+views
+assets/image/fa-light
+assets/image/fa-brands
+assets/image/fa-reg
+assets/image/fa-solid

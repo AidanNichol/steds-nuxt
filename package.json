@@ -1,0 +1,52 @@
+{
+  "name": "steds-nuxt",
+  "version": "1.0.0",
+  "description": "St.Edwards Fellwalkers Website",
+  "author": "Aidan Nichol <aidan@nicholware.co.uk>",
+  "private": true,
+  "dependencies": {
+    "animate.css": "^3.5.2",
+    "axios": "^0.16.2",
+    "babel-plugin-syntax-optional-chaining": "7.0.0-alpha.19",
+    "element-ui": "^1.4.2",
+    "lazysizes": "^4.0.0-rc3",
+    "lodash": "^4.17.4",
+    "nuxt": "1.0.0-rc4",
+    "re-template-tag": "^2.0.1",
+    "underscore.string": "^3.3.4",
+    "vue-color": "^2.4.0",
+    "vue-i18n": "^7.1.1",
+    "vue-intersect": "^1.1.2",
+    "vue-loader": "^13.0.4",
+    "vue-no-ssr": "^0.1.2",
+    "xdate": "^0.8.2"
+  },
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-lodash": "^3.2.11",
+    "eslint": "^4.5.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-html": "^3.2.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.4.1",
+    "eslint-plugin-standard": "^3.0.1",
+    "node-sass": "^4.5.3",
+    "postcss": "^6.0.9",
+    "postcss-css-variables": "^0.8.0",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-loader": "^2.0.6",
+    "sass-loader": "^6.0.6",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1"
+  }
+}
