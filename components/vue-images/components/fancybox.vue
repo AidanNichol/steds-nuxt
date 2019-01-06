@@ -11,23 +11,32 @@
           <icon :type="'close'" :color="'#ccc'"></icon>
         </div>
       </div>
-      <div class="album">{{images[index].album}}</div>
-        <img ref="images" class="image animated lazyload" v-for="(item, i) in images"
-        :data-src="mapAlbum(item.filepath+item.normal)"
-        :data-srcset="mapAlbum(item.srcset)"
-        :data-sizes="getDataSizes(item)"
-        v-show="item.index===index+1" @click.stop="addIndex" :key="item.pid">
-        <!-- <img ref="images" class="image animated lazyload" v-for="(item, i) in images"  :data-src="item.fullUrl" v-show="item.index===index+1" @click.stop="addIndex" :key="item.pid"> -->
+      <div class="album">{{ image.album }}</div>
+      <img
+        ref="images"
+        class="image animated lazyload"
+        :src="mapAlbum(image.filepath + image.normal)"
+        :srcset="mapAlbum(image.srcset)"
+        :sizes="getDataSizes(image)"
+        @click.stop="addIndex"
+      >
+      <!-- <img ref="images" class="image animated lazyload" v-for="(item, i) in images"  :data-src="item.fullUrl" v-show="item.index===index+1" @click.stop="addIndex" :key="item.pid"> -->
       <div class="footer">
-        <span class="caption" @click.stop="" v-show="showcaption" v-html="images[index].photographer"></span>
-        <span class="count" @click.stop="" v-show="showimagecount">{{ index+1 }} {{imagecountseparator}} {{ images[index].total }}</span>
+        <span class="caption" @click.stop v-show="showcaption" v-html="image.photographer"></span>
+        <span
+          class="count"
+          @click.stop
+          v-show="showimagecount"
+        >{{ index + 1 }} {{ imagecountseparator }} {{ image.total }}</span>
       </div>
-    </div>
-    <div v-if="index > 0" class="arrow left" @click.stop="decIndex">
-      <icon :type="'arrowLeft'" :color="'#ccc'"></icon>
-    </div>
-    <div v-if="index < images[index].total-1" class="arrow right" @click.stop="addIndex">
-      <icon :type="'arrowRight'" :color="'#ccc'"></icon>
+      <div class="arrows" :style="getDataDim(image)">
+        <div @click.stop="decIndex" class="left">
+          <icon v-if="index > 0" :type="'arrowLeft'" :color="'#ccc'"></icon>
+        </div>
+        <div @click.stop="addIndex" class="right">
+          <icon v-if="index < images[index].total - 1" :type="'arrowRight'" :color="'#ccc'"></icon>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -45,26 +54,38 @@ export default {
   props: {
     index: Number,
     images: Array,
+    image: Object,
     reset: Boolean,
     showclosebutton: Boolean,
     showcaption: Boolean,
     imagecountseparator: String,
-    showimagecount: Boolean
+    showimagecount: Boolean,
   },
   mixins: [GalleryMixin],
   data() {
     return {
       next: true,
-      isPlay: false
+      isPlay: false,
     };
   },
 
   methods: {
     getDataSizes(pic) {
-      if (Number.parseInt(pic.pwidth) < Number.parseInt(pic.pheight)) {
-        return ` calc((100vh - 180px) * (${pic.pwidth} / ${pic.pheight}))`;
-      }
-      return `95vw`;
+      const ratio = Number.parseInt(pic.pwidth) / Number.parseInt(pic.pheight);
+      console.log('getDataSize', window.innerHeight, ratio, pic);
+      return (
+        Math.min((window.innerHeight - 180) * ratio, window.innerWidth * 0.95) +
+        `px`
+      );
+    },
+    getDataDim(pic) {
+      const ratio = Number.parseInt(pic.pwidth) / Number.parseInt(pic.pheight);
+      const w = Math.min(
+        (window.innerHeight - 180) * ratio,
+        window.innerWidth * 0.95
+      );
+      const extra = window.innerWidth >= 720 ? 80 : 0;
+      return { width: w + extra + 'px', height: w / ratio + 'px' };
     },
     decIndex() {
       this.$emit('decIndex');
@@ -88,10 +109,11 @@ export default {
       this.$emit('pause');
       this.$emit('close');
       this.animation = false;
-    }
+    },
   },
   watch: {
     index() {
+      console.log('fancybox index', this.index);
       this.$nextTick(() => {
         if (!this.isPlay) {
           this.animation = false;
@@ -103,22 +125,19 @@ export default {
         this.isPlay = false;
         this.animation = false;
       }
-    }
+    },
   },
-  components: {
-    icon
-  }
+  components: { icon },
 };
 </script>
 
-<style lang="scss" scoped>
-
+<style  scoped>
 .fancybox {
-	position: relative;
-	display: flex;
-	height: calc(100% - 80px);
-	text-align: center;
-	align-items: center;
+  position: relative;
+  display: flex;
+  height: calc(100% - 80px);
+  text-align: center;
+  align-items: center;
 
   .image-wrapper {
     display: inline-block;
@@ -161,7 +180,7 @@ export default {
     .image {
       display: block;
       max-height: calc(100vh - 180px);
-      min-height: 200px;
+      /* min-height: 200px; */
       margin: 0 auto;
       cursor: pointer;
       // min-width: 95vw;
@@ -206,36 +225,49 @@ export default {
       max-width: calc(98vw);
     }
   }
+  .arrows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
 
-  .arrow {
-    display: inline-block;
+    align-content: space-around;
+    justify-content: space-between;
+    align-content: stretch;
     position: absolute;
+    top: 64px;
+
     cursor: pointer;
 
-    &.left {
-      left: 0;
-    }
+    & > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
-    &.right {
-      right: 0;
+      &.left {
+        justify-content: flex-start;
+      }
+      &.right {
+        justify-content: flex-end;
+      }
     }
   }
-
   @media screen and (min-width: 720px) {
-    .arrow {
-      height: 40px;
-      width: 40px;
-      top: calc(50% - 8px);
+    .arrows {
+      left: -40px;
+      & > div > div {
+        height: 40px;
+        width: 40px;
+      }
     }
   }
 
   @media screen and (max-width: 720px) {
-    .arrow {
-      height: 20px;
-      width: 20px;
-      top: calc(50% + 12px);
+    .arrows {
+      left: 0;
+      & > div > div {
+        height: 20px;
+        width: 20px;
+      }
     }
   }
-
 }
 </style>

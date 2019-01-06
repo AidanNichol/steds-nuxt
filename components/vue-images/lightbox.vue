@@ -1,14 +1,37 @@
 <template>
   <div class="vue-images">
     <gallery :images="images" @changeIndex="changeImg($event)"></gallery>
-    <div id="lightbox" ref="lightbox" class="lightbox" v-show="isShow" @click="isShow=!modalclose"
-      @wheel.stop="wheelFun" >
-      <fancybox ref="fancybox" :images="images" :index="index" :animate="animate" :reset="!isShow"
-      @play="playImg" @pause="pauseImg" @close="closeImg" @addIndex="nextImg"
-      @decIndex="prevImg"
-      :showclosebutton="showclosebutton" :showcaption="showcaption"
-      :imagecountseparator="imagecountseparator" :showimagecount="showimagecount"></fancybox>
-      <paginator :images="images" :activeIndex="index" @changeIndex="changeImg($event)" v-show="showthumbnails"></paginator>
+    <div
+      id="lightbox"
+      ref="lightbox"
+      class="lightbox"
+      v-show="isShow"
+      @click="isShow=!modalclose"
+      @wheel.stop="wheelFun"
+    >
+      <fancybox
+        ref="fancybox"
+        :image="images[index]"
+        :images="images"
+        :index="index"
+        :animate="animate"
+        :reset="!isShow"
+        @play="playImg"
+        @pause="pauseImg"
+        @close="closeImg"
+        @addIndex="nextImg"
+        @decIndex="prevImg"
+        :showclosebutton="showclosebutton"
+        :showcaption="showcaption"
+        :imagecountseparator="imagecountseparator"
+        :showimagecount="showimagecount"
+      ></fancybox>
+      <paginator
+        :images="images"
+        :activeIndex="index"
+        @changeIndex="changeImg($event)"
+        v-show="showthumbnails"
+      ></paginator>
     </div>
   </div>
 </template>
@@ -16,16 +39,16 @@
 <script>
 // import 'animate.css/animate.min.css';
 // import '~/plugins/lazysizesPlg';
-import gallery from './components/gallery';
-import fancybox from './components/fancybox';
-import paginator from './components/paginator';
+import gallery from "./components/gallery";
+import fancybox from "./components/fancybox";
+import paginator from "./components/paginator";
 if (process.BROWSER_BUILD) {
-  console.log('lightbox', process.BROWSER_BUILD, process);
+  console.log("lightbox", process.BROWSER_BUILD, process);
   // require('lazysizes.min.js');
 }
 
 export default {
-  name: 'Lightbox',
+  name: "Lightbox",
   props: {
     imgs: Array,
     modalclose: Boolean,
@@ -48,15 +71,15 @@ export default {
       // Filter to remove undefined items
       this.imgs.forEach(item => {
         if (item) {
-          item['index'] = ++idx;
-          item['isActive'] = false;
-          item['caption'] = item.caption ? item.caption : '';
+          item["index"] = ++idx;
+          item["isActive"] = false;
+          item["caption"] = item.caption ? item.caption : "";
           retArr.push(item);
         }
       });
 
       for (let i = 0, len = retArr.length; i < len; i++) {
-        retArr[i]['total'] = len;
+        retArr[i]["total"] = len;
       }
 
       return retArr;
@@ -66,7 +89,7 @@ export default {
     return {
       isShow: false,
       index: 0,
-      animate: 'none',
+      animate: "none",
       playTimer: null,
       touchPoint: {
         prev: 0,
@@ -76,9 +99,9 @@ export default {
   },
   created() {
     if (this.isShow) {
-      window.addEventListener('keydown', this.keyFun);
+      window.addEventListener("keydown", this.keyFun);
       // window.addEventListener('mousewheel', this.wheelFun);
-      this.$refs.lightbox.addEventListener('touchstart', this.touchFun);
+      this.$refs.lightbox.addEventListener("touchstart", this.touchFun);
     }
   },
   // mounted() {
@@ -87,11 +110,11 @@ export default {
   methods: {
     openImg() {
       this.isShow = true;
-      this.animate = 'none';
+      this.animate = "none";
     },
     playImg() {
       var that = this;
-      this.playTimer = window.setInterval(that.nextImg, 2000);
+      this.playTimer = window.setInterval(that.nextRotateImg, 2000);
     },
     pauseImg() {
       window.clearInterval(this.playTimer);
@@ -99,11 +122,15 @@ export default {
     closeImg() {
       this.isShow = false;
     },
-    nextImg() {
+    nextRotateImg() {
       this.index = (this.index + 1) % this.images.length;
     },
+
+    nextImg() {
+      if (this.index < this.images.length - 1) this.index = this.index + 1;
+    },
     prevImg() {
-      this.index = (this.index - 1 + this.images.length) % this.images.length;
+      if (this.index > 0) this.index = this.index - 1;
     },
     changeImg(event) {
       this.isShow = true;
@@ -157,20 +184,23 @@ export default {
     }
   },
   watch: {
+    index() {
+      console.log("lightbox index", this.index);
+    },
     isShow() {
       if (this.isShow) {
-        document.body.style.position = 'fixed';
-        window.addEventListener('keydown', this.keyFun);
+        document.body.style.position = "fixed";
+        window.addEventListener("keydown", this.keyFun);
         // this.$refs.lightbox.addEventListener('mousewheel', this.wheelFun);
-        this.$refs.lightbox.addEventListener('touchstart', this.touchFun);
-        this.$refs.lightbox.addEventListener('touchend', this.endFun);
+        this.$refs.lightbox.addEventListener("touchstart", this.touchFun);
+        this.$refs.lightbox.addEventListener("touchend", this.endFun);
       } else {
         this.pauseImg();
-        document.body.style.position = 'static';
-        window.removeEventListener('keydown', this.keyFun);
+        document.body.style.position = "static";
+        window.removeEventListener("keydown", this.keyFun);
         // this.$refs.lightbox.removeEventListener('mousewheel', this.wheelFun);
-        this.$refs.lightbox.removeEventListener('touchstart', this.touchFun);
-        this.$refs.lightbox.removeEventListener('touchend', this.endFun);
+        this.$refs.lightbox.removeEventListener("touchstart", this.touchFun);
+        this.$refs.lightbox.removeEventListener("touchend", this.endFun);
       }
     }
   },
@@ -184,16 +214,16 @@ export default {
 
 <style lang="scss" scoped>
 .lightbox {
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 9999;
-	width: 100%;
-	height: 100%;
-	padding: 2px;
-	background: rgba(0,0,0,0.8);
-	box-sizing: border-box;
-	font-size: 0;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  background: rgba(0, 0, 0, 0.8);
+  box-sizing: border-box;
+  font-size: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 </style>

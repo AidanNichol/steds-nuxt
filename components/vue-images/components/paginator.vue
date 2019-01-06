@@ -3,11 +3,20 @@
     <div :class="{hide: index <= 0}" class="arrow left" @click.stop="adjustThumbIndex(-1)">
       <icon :type="'arrowLeft'" :color="'#ccc'"></icon>
     </div>
-    <div class="thumbnail-wrapper" v-for="item in activeImages" @click.stop="setActive(item.index-1)">
+    <div
+      class="thumbnail-wrapper"
+      v-for="item in activeImages"
+      @click.stop="setActive(item.index-1)"
+      :key="item.index"
+    >
       <thumbnail :imageUrl="item.thumbUrl" :class="{active: item.isActive}" v-if="!isMove"></thumbnail>
     </div>
-    <div :class="{hide: index >= (images.length - noThumbs)}" class="arrow right" @click.stop="adjustThumbIndex(+1)">
-      <icon :type="'arrowRight'" :color="'#ccc'"></icon>
+    <div
+      :class="{hide: index >= (images.length - noThumbs)}"
+      class="arrow right"
+      v-on:click.stop="adjustThumbIndex(+1)"
+    >
+      <icon :type="'arrowRight'" :color="'#ccc'"/>
     </div>
   </div>
 </template>
@@ -19,12 +28,12 @@ import thumbnail from './common/thumbnail';
 export default {
   props: {
     images: Array,
-    activeIndex: Number
+    activeIndex: Number,
   },
   data() {
     return {
       index: 0,
-      isMove: false
+      isMove: false,
     };
   },
   computed: {
@@ -33,7 +42,7 @@ export default {
     },
     activeImages() {
       return this.images.slice(this.index, this.index + this.noThumbs);
-    }
+    },
   },
   mounted() {
     this.index = this.setIndex(this.activeIndex);
@@ -44,7 +53,7 @@ export default {
       this.index = this.setIndex(this.activeIndex);
       this.setActive(this.activeIndex);
       console.log('paginator mounted', window.innerWidth);
-    }
+    },
   },
   methods: {
     setIndex(idx) {
@@ -70,26 +79,26 @@ export default {
       });
       this.images[idx].isActive = true;
       this.isMove = false;
-    }
+    },
   },
   components: {
     icon,
-    thumbnail
-  }
+    thumbnail,
+  },
 };
 </script>
 
 <style lang="scss">
 .paginator {
-	width: 100%;
-	min-width: 300px;
-	// position: absolute;
+  width: 100%;
+  min-width: 300px;
+  // position: absolute;
   display: flex;
   justify-content: center;
-	left: 0;
-	bottom: 10px;
-	text-align: center;
-	margin: 0 auto;
+  left: 0;
+  bottom: 10px;
+  text-align: center;
+  margin: 0 auto;
   .arrow {
     display: inline-block;
     // position: absolute;
@@ -112,10 +121,8 @@ export default {
     // }
   }
 
-
   .thumbnail-wrapper {
     display: inline-block;
   }
 }
-
 </style>

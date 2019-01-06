@@ -1,32 +1,34 @@
 <template>
   <div id="upload">
-    <Authentication roleReq="0" />
+    <Authentication roleReq="0"/>
     <div class="container" v-if="authenticated">
       <!--UPLOAD-->
       <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
         <h1>Upload images</h1>
         <div class="album">
-            <span class="prepend">Album</span>
+          <span class="prepend">Album</span>
 
-            <el-select v-model="album" filterable allow-create :style="{width:'15em'}">
-              <el-option
-              v-for="alb in albums"
-              :key="alb"
-              :label="alb"
-              :value="alb">
-            </el-option>
+          <el-select v-model="album" filterable allow-create :style="{width:'15em'}">
+            <el-option v-for="alb in albums" :key="alb" :label="alb" :value="alb"></el-option>
           </el-select>&nbsp; &nbsp;
-          <el-input  v-model="photographer" :style="{width:'20em'}"><template slot="prepend">Photographer</template></el-input>
+          <el-input v-model="photographer" :style="{width:'20em'}">
+            <template slot="prepend">Photographer</template>
+          </el-input>
         </div>
         <div class="dropbox">
-          <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
-            accept="image/*" class="input-file">
-            <p v-if="isInitial">
-              Drag your file(s) here to begin<br> or click to browse
-            </p>
-            <p v-if="isSaving">
-              Uploading {{ fileCount }} files...
-            </p>
+          <input
+            type="file"
+            multiple
+            :name="uploadFieldName"
+            :disabled="isSaving"
+            @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+            accept="image/*"
+            class="input-file"
+          >
+          <p v-if="isInitial">Drag your file(s) here to begin
+            <br>or click to browse
+          </p>
+          <p v-if="isSaving">Uploading {{ fileCount }} files...</p>
         </div>
       </form>
       <!--SUCCESS-->
@@ -36,7 +38,7 @@
           <a href="javascript:void(0)" @click="reset()">Upload again</a>
         </p>
         <ul class="list-unstyled">
-          <li v-for="item in uploadedFiles">
+          <li v-for="item in uploadedFiles" :key="item.id">
             <img :src="item.url" class="img-responsive img-thumbnail" :alt="item.originalName">
           </li>
         </ul>
@@ -81,14 +83,13 @@ export default {
       uploadFieldName: 'photos',
       albums: [],
       album: null,
-      photographer: null
+      photographer: null,
     };
   },
   components: { Authentication },
   computed: {
     ...mapState('authentication', ['state', 'role', 'name']),
     authenticated() {
-      console.log('authenticated', { state: this.state, role: this.role });
       let res = this.state === 2 && this.role >= 0;
       console.log('authenticated', _.pick(this, ['state', 'role']), res);
       return res;
@@ -104,12 +105,12 @@ export default {
     },
     isFailed() {
       return this.currentStatus === STATUS_FAILED;
-    }
+    },
   },
   watch: {
     name() {
       this.photographer = this.name;
-    }
+    },
   },
   methods: {
     reset() {
@@ -129,7 +130,9 @@ export default {
         console.log('axios upload', ret);
         this.uploadedFiles = ret.data.map(img =>
           Object.assign({}, img, {
-            url: `http://www.stedwardsfellwalkers.co.uk/gallery/albums/${img.url}`
+            url: `http://www.stedwardsfellwalkers.co.uk/gallery/albums/${
+              img.url
+            }`,
           })
         );
         console.log('upload response', this.uploadedFiles);
@@ -140,18 +143,6 @@ export default {
         this.currentStatus = STATUS_FAILED;
       } finally {
       }
-      // upload(formData)
-      //   .then(wait(1500)) // DEV ONLY: wait for 1.5s
-      //   .then(x => {
-      //     console.log('upload response', x);
-      //     this.uploadedFiles = [].concat(x);
-      //     this.currentStatus = STATUS_SUCCESS;
-      //   })
-      //   .catch(err => {
-      //     console.error(err);
-      //     this.uploadError = err.response;
-      //     this.currentStatus = STATUS_FAILED;
-      //   });
     },
     filesChange(fieldName, fileList) {
       // handle file changes
@@ -168,7 +159,7 @@ export default {
 
       // save it
       this.save(formData);
-    }
+    },
   },
   async mounted() {
     let res = await this.getWalkData('GetPastWalks');
@@ -176,7 +167,7 @@ export default {
     this.album = this.albums[0];
     this.photographer = this.name;
     this.reset();
-  }
+  },
 };
 </script>
 
@@ -214,24 +205,22 @@ export default {
     li {
       text-align: left;
     }
-    .prepend{
+    .prepend {
       display: inline-block;
       color: #97a8be;
       height: 36px;
       font-size: 14px;
-      padding:9px 10px 0 10px;
+      padding: 9px 10px 0 10px;
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
       box-sizing: border-box;
       border: 1px solid #97a8be;
       border-right-width: 0;
     }
-    .el-select div.el-input input{
+    .el-select div.el-input input {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-
     }
-
   }
 }
 </style>
