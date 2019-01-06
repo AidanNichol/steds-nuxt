@@ -22,19 +22,19 @@
 <script>
 import { Swatches } from 'vue-color';
 export default {
-  props: ['options', 'no', 'active', 'toggleRoute', 'optionsChanged', 'active'],
+  props: ['options', 'no', 'active', 'toggleRoute', 'optionsChanged'],
   components: { Swatches },
   data() {
     return {
       showColor: false,
       showWidth: false,
-      showOpacity: false
+      showOpacity: false,
     };
   },
   computed: {
     bType() {
       return this.active ? 'primary' : 'default';
-    }
+    },
   },
   beforeMount() {
     console.log(`MapRouteControl beforeMount ${this.no}`, this);
@@ -52,19 +52,25 @@ export default {
     opacityChanged(val) {
       console.log(`opacityChanged ${this.no}`, val);
       this.optionsChanged('strokeOpacity', val);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="css">
-.el-button-group { margin-right: 0.5em;}
+.el-button-group {
+  margin-right: 0.5em;
+}
 .w-button {
   padding-left: 3px;
   padding-right: 3px;
+  height: 36px;
 }
 .i-button {
   padding: 3px;
-  & img {width: 26px; max-height: 32px;}
+  & img {
+    width: 26px;
+    max-height: 32px;
+  }
 }
 </style>
