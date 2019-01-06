@@ -1,28 +1,27 @@
 <template>
-
   <div class="page myPage hideableMenu fullWidth">
     <div class="head mToggle screenonly" @click="toggleMenu">
-      <img class="logo" src="~/assets/image/St.EdwardsLogoSimple.svg" alt=""/>
-      <MinPageHeader />
-      <img class="border" v-if="menuHidden" src="~/assets/image/menu.svg" alt=""/>
-      <img class="border" v-else            src="~/assets/image/icon-Cancel.svg" alt=""/>
+      <img class="logo" src="~/assets/image/St.EdwardsLogoSimple.svg" alt>
+      <MinPageHeader/>
+      <img class="border" v-if="menuHidden" src="~/assets/image/menu.svg" alt>
+      <img class="border" v-else src="~/assets/image/icon-Cancel.svg" alt>
     </div>
-  	<div class="body">
-  		<div class="main">
+    <div class="body">
+      <div class="main">
         <!-- <div> -->
-          <nuxt/>
+        <nuxt/>
         <!-- </div> -->
-  		</div>
+      </div>
       <div class="menu screenonly" :class="{hidden: menuHidden}">
         <navBar/>
       </div>
-  	</div>
-  	<div class="foot myFooter width-1of1">
-          <p>
-            Send mail to <a href="mailto:webmaster@stedwardsfellwalkers.co.uk">Webmaster</a> with questions or comments about this site. </p>
-  	</div>
+    </div>
+    <div class="foot myFooter width-1of1">
+      <p>Send mail to
+        <a href="mailto:webmaster@stedwardsfellwalkers.co.uk">Webmaster</a> with questions or comments about this site.
+      </p>
+    </div>
   </div>
-
 </template>
 <script>
 // import axios from 'axios';
@@ -49,14 +48,14 @@ export default {
         return 'hideableMenu fullWidth';
       }
       return 'fixedMenu';
-    }
+    },
   },
   methods: {
     toggleMenu() {
       this.menuHidden = !this.menuHidden;
       // console.log('menuHidden', this.menuHidden);
-    }
-  }
+    },
+  },
   // async fetch({ store, params }) {
   //   let res = await axios.get(`${stedsServer}/walks/GetYears`);
   //   store.commit('setYears', res.data);
@@ -68,13 +67,12 @@ export default {
 </script>
 
 <style>
-@import "/css/bootstrap-reboot.css"
+/* @import "/css/bootstrap-reboot.css" */
 </style>
 
 <style scoped>
-
 body {
-  background-color: #B2D6FF;
+  background-color: #b2d6ff;
   background: #ddd url('~assets/image/offwhitestripes.gif') top left repeat;
   color: #333;
   margin: 0;
@@ -85,30 +83,29 @@ body {
   /*padding-bottom: 25px;*/
   box-sizing: border-box;
 }
-a, a:visited{
-  color:#CC3300;
+a,
+a:visited {
+  color: #cc3300;
   text-decoration: none;
 }
-a:hover{
-  color:white;
-  background-color:#CC3300;
+a:hover {
+  color: white;
+  background-color: #cc3300;
 }
 hr {
-    border: 5px solid #e2e2e2;
-    border-width: 0 0 5px 0;
-    margin: 20px 10px 10px 10px;
-    border-style: inset;
+  border: 5px solid #e2e2e2;
+  border-width: 0 0 5px 0;
+  margin: 20px 10px 10px 10px;
+  border-style: inset;
 }
-
 
 hr {
-    display: block;
-    margin-before: 0.5em;
-    margin-after: 0.5em;
-    margin-start: auto;
-    margin-end: auto;
+  display: block;
+  margin-before: 0.5em;
+  margin-after: 0.5em;
+  margin-start: auto;
+  margin-end: auto;
 }
-
 </style>
 
 <style lang="scss" scoped >
@@ -136,22 +133,20 @@ hr {
       border: 1px solid black;
       border-radius: 0.1em;
       // height: 1.2em;
-
     }
     &.logo {
       width: 2em;
-
     }
   }
 }
-.myPage{
-  width:100%;
-  background: #FFFFFF;
+.myPage {
+  width: 100%;
+  background: #ffffff;
   height: 100vh;
   max-height: 100vh;
-  display:flex;
+  display: flex;
   flex-direction: column;
-  & .head{
+  & .head {
     flex: 0 0 auto;
     padding-top: 0.5rem;
     min-height: 50px;
@@ -164,7 +159,7 @@ hr {
   }
 }
 
-.myPage{
+.myPage {
   .body {
     text-align: left;
     display: table-row;
@@ -175,7 +170,9 @@ hr {
       flex: 1 1 auto;
       overflow-x: hidden;
 
-      p {padding-bottom: 0.5em;}
+      p {
+        padding-bottom: 0.5em;
+      }
 
       > div {
         padding: 0 0.3em 0 0.3em;
@@ -188,29 +185,32 @@ hr {
     .menu {
       flex: 0 0 145px;
       display: table-cell;
-      width:145px;
+      width: 145px;
       overflow-x: hidden;
-      transition: all .5s linear;
+      transition: all 0.5s linear;
       &.hidden {
         flex: 0 0 0px;
       }
-    }/* Mobile Styles */
+    } /* Mobile Styles */
   }
 }
 
 /* Desktop Styles */
 @media only screen and (min-width: 801px) {
   body {
-    .myPage{
+    .myPage {
       margin-left: auto;
       margin-right: auto;
-      width:800px;
-      max-width:800px;
-      &.fullWidth{ width: 100vw; max-width: 100vw;}
+      width: 800px;
+      max-width: 800px;
+      &.fullWidth {
+        width: 100vw;
+        max-width: 100vw;
+      }
       // background: #FFFFFF;
       // display: block;
       &.fixedMenu {
-        .mToggle{
+        .mToggle {
           display: none;
         }
 
@@ -228,13 +228,12 @@ hr {
             }
           }
         }
-
       }
       &.hideableMenu {
         &.fullWidth .body .main > div {
-            min-width: 100vw;
-            width: 100vw;
-          }
+          min-width: 100vw;
+          width: 100vw;
+        }
         .body .main > div {
           min-width: 800px;
           width: 800px;
@@ -245,15 +244,13 @@ hr {
 }
 /* copied from kohsteds */
 
-
-@media screen{
-// .myPage{
-//   width:800px;
-//   margin-left: auto;
-//   margin-right: auto;
-//   background: #FFFFFF;
-// }
-
+@media screen {
+  // .myPage{
+  //   width:800px;
+  //   margin-left: auto;
+  //   margin-right: auto;
+  //   background: #FFFFFF;
+  // }
 }
 // .menu .inner{
 //     border-left: 1px solid #ccc;
@@ -269,19 +266,14 @@ hr {
 //     font-size:    x-small;
 // }
 
-
-.myFooter{
-    border: 0;
-    border-top: 1px solid #ccc;
-    color: #666;
-    background: #eee;
-    padding: 0;
-    text-align: left;
-    clear: both;
-    font-size: x-small;
+.myFooter {
+  border: 0;
+  border-top: 1px solid #ccc;
+  color: #666;
+  background: #eee;
+  padding: 0;
+  text-align: left;
+  clear: both;
+  font-size: x-small;
 }
-
-
-
-
 </style>

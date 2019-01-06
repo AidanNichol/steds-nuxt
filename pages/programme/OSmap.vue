@@ -2,7 +2,7 @@
   <div class="osmap" >
     <div id="map" :style="{border: '1px solid black'}"></div>
     <div class="selectorRegion" v-if="osMap" >
-      <MapRouteControl v-for="lay in layers" v-if="lay.no!==0":no="lay.no" :options="lay.options" :active="lay.lgpx" :toggleRoute="toggleRoute(lay.no)" :lay="lay" :optionsChanged="changeValue(lay.no)" :key="lay.no"></MapRouteControl>
+      <MapRouteControl v-for="lay in fLayers" :no="lay.no" :options="lay.options" :active="lay.lgpx" :toggleRoute="toggleRoute(lay.no)" :lay="lay" :optionsChanged="changeValue(lay.no)" :key="lay.no"></MapRouteControl>
     </div>
   </div>
 </template>
@@ -31,7 +31,8 @@ export default {
       end: [],
       layers: [],
       data: null,
-      no: null
+      no: null,
+      noRoutes: 5,
       // mHt: '60vh',
       // mWd: '100vw'
     };
@@ -40,13 +41,19 @@ export default {
         lgpx: null,
         marker: null,
         no: no,
-        options: { strokeColor: colors[no], strokeWidth: 5, strokeOpacity: 1 }
+        options: { strokeColor: colors[no], strokeWidth: 5, strokeOpacity: 1 },
       };
     });
     console.log('OSMap data', ret);
     return ret;
   },
-  computed: {},
+  computed: {
+    fLayers() {
+      return this.layers.filter(
+        layer => layer.no !== 0 && layer.no <= this.noRoutes
+      );
+    },
+  },
   async beforeMount() {
     // this.windowResize();
     // window.onresize = this.windowResize;
@@ -56,12 +63,13 @@ export default {
       let query = this.$route.query;
       this.walkId = query.walkId;
       this.no = query.no;
+      this.noRoutes = query.noRoutes;
       console.log('OSMap beforeMount0', this);
       let res = await this.getWalkData('getRoutesGpxJ', this.walkId);
       this.gpxJ = res.data;
       this.setSecondaryHeading({
         main: this.walkId,
-        sub: this.gpxJ.area
+        sub: this.gpxJ.area,
       });
       const gpx = res.data[this.no];
       console.log('OSMap beforeMount', gpx, this.walkId, res, res.data);
@@ -72,7 +80,7 @@ export default {
       // initiate the map
       await Vue.nextTick();
       var options = {
-        resolutions: [2500, 1000, 500, 200, 100, 50, 25, 10, 5, 4, 2.5, 2, 1]
+        resolutions: [2500, 1000, 500, 200, 100, 50, 25, 10, 5, 4, 2.5, 2, 1],
       };
       this.osMap = new OpenSpace.Map('map', options);
       lat = (368455 + 374849) / 2;
@@ -151,7 +159,7 @@ export default {
             title: 'Hidding All Walks',
             message: `You must display at least one walk to satisfy the Ordnance Survey's terms and conditions`,
             type: 'warning',
-            duration: 4000
+            duration: 4000,
           });
         }
       } else this.showLayer(no);
@@ -174,7 +182,7 @@ export default {
         {
           format: OpenLayers.Format.GPX,
           style: lay.options,
-          projection: new OpenLayers.Projection('EPSG:4326')
+          projection: new OpenLayers.Projection('EPSG:4326'),
         }
       );
       lay.lgpx.setZIndex(1000);
@@ -205,17 +213,19 @@ export default {
         this.hideLayer(no);
         this.showLayer(no);
       };
-    }
-  }
+    },
+  },
 };
 </script>
 
 
-<style lang="css" scoped>
+<style  scoped>
 .osmap {
   overflow: scroll;
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  display: grid;
+  grid-template-rows: 1fr auto;
   height: 100%;
   width: 100%;
   & .selectorRegion {

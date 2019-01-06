@@ -19,17 +19,17 @@
       <?=($overlay? $overlay:'')?>
     </div>
     <? if ($overlay):?>
-    <div id="wpinstructions" class="screenonly">
-    Click on any change of direction on a route to see a 1:50K OS
-    map of that part of the route.
-    The location of the waypoint will be shown by a red arrow
-  </div>
-<? endif; ?>
-<? if ($mapimgR):?>
-<img class="printonly mapHead<?=$headPos?>" alt="" src="{MAPIMGR}" />
-<? endif;?> -->
+      <div id="wpinstructions" class="screenonly">
+        Click on any change of direction on a route to see a 1:50K OS
+        map of that part of the route.
+        The location of the waypoint will be shown by a red arrow
+      </div>
+    <? endif; ?>
+    <? if ($mapimgR):?>
+    <img class="printonly mapHead<?=$headPos?>" alt="" src="{MAPIMGR}" />
+    <? endif;?> -->
 
-    </div>
+    <!-- </div> -->
   </div>
 
 </div>
@@ -48,7 +48,7 @@ export default {
   computed: {
     orientation() {
       return this.walk.orientation === 'L' ? 'landscape' : 'portrait';
-    }
+    },
   },
   methods: {
     mapIsPdf(map) {
@@ -56,7 +56,7 @@ export default {
     },
     imgFile(img) {
       return `http://stedwardsfellwalkers.co.uk/${img}`;
-    }
+    },
   },
   async beforeMount() {
     console.log('ShowMap beforeMount', this.walkId);
@@ -65,7 +65,7 @@ export default {
     // walk.dispDate = new XDate(walk.date).toString('dddd, d MMMM yyyy ');
     console.log('ShowMap', { walk });
     this.walk = walk;
-  }
+  },
 };
 </script>
 

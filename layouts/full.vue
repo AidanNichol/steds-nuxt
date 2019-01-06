@@ -1,27 +1,27 @@
 <template>
-<div class="page myPage">
-  <!-- <div class="head">
+  <div class="page myPage fullWidth">
+    <!-- <div class="head">
     <banner/>
-  </div> -->
-  <div class="body">
-    <div class="main">
-      <nuxt/>
+    </div>-->
+    <div class="body">
+      <div class="main">
+        <nuxt/>
+      </div>
+    </div>
+    <div class="foot myFooter width-1of1">
+      <p>
+        Send mail to
+        <a href="webmaster@stedwardsfellwalkers.co.uk">Webmaster</a> with questions or comments about this site.
+      </p>
     </div>
   </div>
-  <div class="foot myFooter width-1of1">
-        <p>
-          Send mail to <a href="webmaster@stedwardsfellwalkers.co.uk">Webmaster</a> with questions or comments about this site. </p>
-  </div>
-</div>
 </template>
 <script>
 import axios from 'axios';
-import banner from '~/components/bannerStEds';
+// import banner from '~/components/bannerStEds';
 import { stedsServer } from '~/assets/js/config';
 export default {
-  components: {
-    banner
-  },
+  // components: { banner, },
   created() {
     console.log('default created');
     this.$store.dispatch('hydrateStore');
@@ -29,23 +29,23 @@ export default {
   async fetch({ store, params }) {
     let res = await axios.get(`${stedsServer}/walks/GetYears`);
     console.log('default fetch', {
-      res
+      res,
     });
     store.commit('setYears', res.data);
   },
   async asyncData({ route }) {
     console.log('default template', {
-      route
+      route,
     });
 
     return {
-      route: route
+      route: route,
     };
-  }
+  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 /* copied from kohsteds */
 
 body {
@@ -65,17 +65,16 @@ body {
   }
 }
 a {
-  color:#CC3300;
+  color: #cc3300;
   font-weight: bold;
   text-decoration: none;
 
-  &:visited{
-    color:#CC3300;
+  &:visited {
+    color: #cc3300;
   }
-  &:hover{
-    color:white;
-    background-color:#CC3300;
+  &:hover {
+    color: white;
+    background-color: #cc3300;
   }
-
 }
 </style>
