@@ -1,23 +1,19 @@
 <template>
-  <!-- <div class="proramme"> -->
-    <div id=programme v-if="walksDetails.length > 0">
-      <div class="yearprog">
-        <div v-for="walk in walksDetails" :class="{detailN: walk.details!=='Y'}">
-          <span>{{dispDat(walk.date)}}</span>
-          <a @click="setHiWalk(walk)" :title="toolTip(walk)">{{walk.area}}</a>
-        </div>
+  <div id="programme" v-if="walksDetails.length > 0">
+    <div class="yearprog">
+      <div v-for="walk in walksDetails" :key="walk.date" :class="{detailN: walk.details!=='Y'}">
+        <span>{{dispDat(walk.date)}}</span>
+        <a @click="setHiWalk(walk)" :title="toolTip(walk)">{{walk.area}}</a>
       </div>
-    <!-- </div> -->
+    </div>
     <div id="hiWalk" class="programme">
-      <WalkHighlight :walk="hiWalk" />
+      <WalkHighlight :walk="hiWalk"/>
     </div>
 
-    <div v-show="progPDF" class="screenonly progPDF"><a :href="progPDF">
-      Download this programme as a PDF document</a></div>
-
-
+    <div v-show="progPDF" class="screenonly progPDF">
+      <a :href="progPDF">Download this programme as a PDF document</a>
+    </div>
   </div>
-
 </template>
 
 <script>
@@ -30,82 +26,73 @@ export default {
   // d
   components: { WalkHighlight },
   data() {
-    return { walksDetails: [], hiWalk: {} };
+    return { year: '', walksDetails: [], hiWalk: {} };
   },
   async beforeMount() {
     let { query } = this.$route;
     console.log(query);
-    let { data } = await axios.get(
-      `${stedsServer}/walks/getYearsData/${query.year}`
-    );
-    console.log(data);
-    let dat = new XDate().toString('yyyy-MM-dd');
-    console.log({ dat });
-
-    this.walksDetails = data.walksDetails;
-    this.hiWalk = data.hiDate;
-    this.docname = data.docname;
+    this.yearsWalks(query.year);
+  },
+  async beforeUpdateX() {
+    let { query } = this.$route;
+    console.log(query);
+    this.yearsWalks(query.year);
   },
   computed: {
     progPDF() {
       return (
         this.docname && `http://stedwardsfellwalkers.co.uk/${this.docname}`
       );
-    }
+    },
   },
   methods: {
+    async yearsWalks(year) {
+      let { data } = await axios.get(
+        `${stedsServer}/walks/getYearsData/${year}`
+      );
+      console.log(data);
+      let dat = new XDate().toString('yyyy-MM-dd');
+      console.log({ dat });
+
+      this.walksDetails = data.walksDetails;
+      this.hiWalk = data.hiDate;
+      this.docname = data.docname;
+    },
     dispDat(dat) {
       return new XDate(dat).toString('MMM d');
     },
     toolTip(walk) {
-      return `${walk.regname}, bus: ${walk.time}, org: ${walk.organizer}, maps: ${walk.map}`;
+      return `${walk.regname}, bus: ${walk.time}, org: ${
+        walk.organizer
+      }, maps: ${walk.map}`;
     },
     setHiWalk(walk) {
       this.hiWalk = walk;
-    }
-  }
+    },
+  },
+  watch: {
+    '$route.query.year': function(year, oldyear) {
+      console.log(`year changed from ${oldyear} to ${year}`);
+      this.year = year;
+      this.yearsWalks(year);
+    },
+  },
 };
 </script>
 <style scoped>
-#programme{
-  margin:5px;
+#programme {
+  margin: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-/*#programme .inner{
-  border:thin solid black;
-}
-#programme .last .inner{
-  border-left:0;
-    font-size:small;
-}
-#programme .inner div {
-    line-height:1.7em;
-    font-size:x-small;
-}
-#programme .inner div span{
-    font-size:x-small;
-    display:inline-block;
-    width:43px;
-    padding-left:3px;
-}
-#programme .inner div.detailsN a{
-    color:tan;
-}
-#programme .inner div a{
-    font-weight:normal;
-}*/
+
 .yearprog {
-  /*display: flex;
-  flex-flow: column wrap;*/
-  border: 3px solid #CC9999;
-  /*margin-left: 2em;
-  margin-right: 2em;*/
+  border: 3px solid #cc9999;
   padding: 6px;
   width: 400px;
   columns: 180px 2;
-  column-rule: 3px solid #CC9999;
+  column-rule: 3px solid #cc9999;
   font-size: x-small;
 }
 .progPDF {
@@ -113,25 +100,24 @@ export default {
   padding-top: 0.5em;
 }
 .yearprog span {
-  display:inline-block;
+  display: inline-block;
   width: 46px;
   padding-left: 3px;
 }
-.detailN a{
+.detailN a {
   color: tan;
 }
 #hiWalk.nextwalk {
-    float: right;
+  float: right;
 }
 #hiWalk {
-  /*margin:2px auto;*/
   padding: 6px;
-  border: 3px solid #CC9999;
+  border: 3px solid #cc9999;
   border-top-width: 0;
   width: 320px;
 }
-#hiWalk h3{
-  padding:0;
+#hiWalk h3 {
+  padding: 0;
 }
 @media only screen and (max-width: 338px) {
   .yearprog {
@@ -141,5 +127,4 @@ export default {
     width: auto;
   }
 }
-
 </style>
