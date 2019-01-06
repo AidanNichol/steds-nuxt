@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { stedsServer } from '~/assets/js/config';
+import {
+  stedsServer
+} from '~/assets/js/config';
 import _ from 'lodash';
 export const state = () => ({
   ip: null,
@@ -14,9 +16,13 @@ export const state = () => ({
   role: null
 });
 export const actions = {
-  async getAuth({ commit }, roleReq) {
+  async getAuth({
+    commit
+  }, roleReq) {
     // let { data } = await axios.get(`${stedsServer}/auth/getAuth/${roleReq}`);
-    let { data } = await axios.get(`${stedsServer}/auth/getAuth`);
+    let {
+      data
+    } = await axios.get(`${stedsServer}/auth/getAuth`);
 
     console.log('authtest data', data, roleReq);
     if (data.role < roleReq && data.state > 0) {
@@ -24,43 +30,40 @@ export const actions = {
     }
     commit('newAuthentication', data);
   },
-  async checkAuth({ commit }) {
-    let { data } = await axios.get(`${stedsServer}/auth/checkAuth`);
+  async checkAuth({
+    commit
+  }) {
+    let {
+      data
+    } = await axios.get(`${stedsServer}/auth/checkAuth`);
 
     console.log('authtest data', data);
     commit('newAuthentication', data);
   },
-  async changeStatus({ commit }, action, roleReq) {
-    let { data } = await axios.get(
-      `${stedsServer}/auth/changeStatus/${action}/${roleReq}`
+
+  async sendRequest({
+    commit
+  }, payload) {
+    console.log('sendRequest', payload)
+    let {
+      data
+    } = await axios.get(
+      `${stedsServer}/auth/${payload.join('/')}`
     );
-    console.log('submitIdentifier data', data);
+    console.log('sendRequest reponse data', data);
     commit('newAuthentication', data);
   }
-  //   async submitIdentifier({ commit }, identifier) {
-  //     let { data } = await axios.get(
-  //       `${stedsServer}/auth/changeStatus/${identifier}`
-  //     );
-  //     console.log('submitIdentifier data', data);
-  //     commit('newAuthentication', data);
-  //   },
-  //   async submitVerification({ commit }, vefication) {
-  //     let { data } = await axios.get(
-  //       `${stedsServer}/auth/changeStatus/${vefication}`
-  //     );
-  //     console.log('submitVerification data', data);
-  //     commit('newAuthentication', data);
-  //   }
 };
 export const mutations = {
   newAuthentication(state, value) {
+    console.log('oldAuthentication', state);
     _.forEach(value, (val, key) => (state[key] = val));
     _.forEach(
       _.difference(_.keys(state), _.keys(value)),
       key => (state[key] = null)
     );
-    console.log('newAuthentication', state);
     // state.replaceState(value);
+    console.log('newAuthentication', state);
     // Window.localStorage.setItem('authentication', JSON.stringify(value));
   },
   hydrateAuthentication(state) {

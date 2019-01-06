@@ -2,30 +2,25 @@
   <div class="authentication">
     <div v-show="name" class="name">
       {{name}} ({{identifier}})
-      <el-button v-show="state==2" @click="handleLogout" type="warning" size="mini">Log out</el-button>
+      <ElButton v-show="state==2" @click="handleLogout" type="warning" size="mini">Log out</ElButton>
     </div>
-    <div v-if="state===0">This page is only available to {{title}} of the walking club.
+    <div v-if="state===0">
+      This page is only available to {{title}} of the walking club.
       <h4>Authentication required</h4>
     </div>
     <div v-show="state===0" class="identifier">
       <div class="inputbox">
-        <div>
-          Enter your email address or mobile phone number and press Enter
-        </div>
-        <!-- <div> -->
-          <input v-model="xIdentifier" @keyup.enter="handleIdentifier" placeholder="email or mobile"/>
-        <!-- </div> -->
-
+        <div>Enter your email address or mobile phone number and press Enter</div>
+        <input v-model="xIdentifier" @keyup.enter="handleIdentifier" placeholder="email or mobile">
       </div>
-      <!-- <button @click="handleIdentifier">submit</button> -->
     </div>
     <div v-show="state===1" class="inputbox">
       <div>You have been sent a verification code via {{via}}. Please enter it here and press enter</div>
-      <input v-model="xVerification" @keyup.enter="handleVerification"/>
-      <!-- <button @click="handleVerification">submit</button> -->
+      <input v-model="xVerification" @keyup.enter="handleVerification">
     </div>
-    <el-button v-show="state===1" @click="handleLogout" size="mini">reset</el-button>
-    <div class="error" v-if="error"> {{error}} </div>
+    <ElButton v-show="state===1" @click="handleResend" size="mini">resend code</ElButton>
+    <ElButton v-show="state===1" @click="handleLogout" size="mini">reset</ElButton>
+    <div class="error" v-if="error">{{error}}</div>
   </div>
 </template>
 
@@ -52,38 +47,34 @@ export default {
       'limit',
       'name',
       'via',
-      'error'
+      'error',
     ]),
     title() {
       return ['member', 'committee members', 'administrators'][this.roleReq];
-    }
+    },
   },
 
   methods: {
-    ...mapActions('authentication', [
-      // 'submitVerification',
-      // 'submitIdentifier',
-      'changeStatus'
-    ]),
+    ...mapActions('authentication', ['sendRequest']),
     handleIdentifier() {
-      console.log('handleIdentifier', this.xIdentifier);
       if (this.xIdentifier.indexOf('@') === -1) {
         this.xIdentifier = this.xIdentifier.replace(/[ -.]/, '');
       }
-      this.changeStatus(this.xIdentifier, this.roleReq);
-    },
-    reuseLastTime() {
-      this.changeStatus(this.identifier, this.roleReq);
+      console.log('handleIdentifier', this.xIdentifier);
+      this.sendRequest(['checkIdentifier', this.xIdentifier, this.roleReq]);
     },
     handleVerification() {
-      this.changeStatus(this.xVerification, this.roleReq);
+      this.sendRequest(['checkVerfication', this.xVerification, this.roleReq]);
+    },
+    handleResend() {
+      this.sendRequest(['checkIdentifier', this.xIdentifier, this.roleReq]);
     },
     handleLogout() {
       this.xIdentifier = '';
       this.xVerification = '';
-      this.changeStatus('logout');
-    }
-  }
+      this.sendRequest(['logout']);
+    },
+  },
 };
 </script>
 
@@ -92,8 +83,8 @@ export default {
   box-sizing: border-box;
   border: thin solid #444444;
   width: 100%;
-  border-radius: .2rem;
-  padding:0.2em 1em;
+  border-radius: 0.2rem;
+  padding: 0.2em 1em;
   background-color: rgb(242, 218, 200);
   & h4 {
     color: red;
@@ -101,11 +92,11 @@ export default {
   }
   & .inputbox {
     border: thin solid #ff8888;
-    border-radius: .3em;
+    border-radius: 0.3em;
     background-color: #f6d0d0;
     width: 40%;
     min-width: 240px;
-    padding: .5em;
+    padding: 0.5em;
     /*display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -113,10 +104,10 @@ export default {
     & input {
       display: block;
       width: 100%;
-      margin-top: .5em;
+      margin-top: 0.5em;
       background-color: white;
-      border:thin solid #888888;
-      border-radius: .3em;
+      border: thin solid #888888;
+      border-radius: 0.3em;
       font-size: 1.1em;
     }
   }
@@ -135,7 +126,7 @@ export default {
     }
   }
 }
-.error{
+.error {
   color: red;
   font-weight: bold;
 }
