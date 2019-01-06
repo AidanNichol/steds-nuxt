@@ -1,0 +1,12 @@
+{
+    "prettier.jsxSingleQuote": true,
+    "prettier.printWidth": 90,
+    "prettier.singleQuote": true,
+    "prettier.trailingComma": "all",
+    "scss.validate": false,
+    "less.validate": false,
+    "css.validate": false,
+    "vetur.validation.style": false,
+    "vetur.validation.template": false,
+    "prettier.eslintIntegration": true
+}
