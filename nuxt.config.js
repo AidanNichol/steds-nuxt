@@ -3,6 +3,7 @@ module.exports = {
   /*
    ** Headers of the page
    */
+  mode: 'spa',
   head: {
     titleTemplate: 'St.Edwards - %s',
     meta: [{
@@ -44,22 +45,40 @@ module.exports = {
       // }
     ]
   },
+  modules: [
+    'nuxt-element-ui'
+  ],
 
-  /*
-   ** Customize the progress-bar color
-   */
-  loading: {
-    color: '#3B8070'
+  elementUI: {
+    components: ['Button', 'ButtonGroup', 'Dialog', 'Slider', 'Input', 'InputNumber', 'Select', 'Option', 'Form', 'FormItem', 'ColorPicker'],
+    // locale: 'gb',
   },
   /*
-   ** Build configuration
-   */
-  plugins: [{
-    src: '~/plugins/element-ui.js'
-  }],
-  // plugins: [{ src: '~plugins/lazysizes.js', ssr: false }],
-  css: ['element-ui/lib/theme-chalk/index.css'],
+  ** Customize the progress-bar color
+  */
+ loading: {
+   color: '#3B8070'
+  },
+  /*
+  ** Build configuration
+  */
+
+   css: [
+     'element-ui/lib/theme-chalk/button.css',
+      'element-ui/lib/theme-chalk/button-group.css',
+      'element-ui/lib/theme-chalk/dialog.css',
+      'element-ui/lib/theme-chalk/slider.css',
+      'element-ui/lib/theme-chalk/input.css',
+      'element-ui/lib/theme-chalk/input-number.css',
+      'element-ui/lib/theme-chalk/select.css',
+      'element-ui/lib/theme-chalk/option.css',
+      'element-ui/lib/theme-chalk/form.css',
+      'element-ui/lib/theme-chalk/form-item.css',
+      'element-ui/lib/theme-chalk/color-picker.css',
+   ],
+
   build: {
+    analyze: true,
     postcss: {
 
       preset: {

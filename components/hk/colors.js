@@ -1,0 +1,35 @@
+
+const colors = {
+		"apricot": "#fdd9b5",
+		"black": "#000000",
+		"bluebright": "#0000ff",
+		"blue": "#1f75fe",
+		"bluegreen": "#0d98ba",
+		"blueviolet": "#7366bd",
+		"brown": "#b4674d",
+		"brown2": "#5D4037",
+		"carnationpink": "#ffaacc",
+		"cerulean": "#1dacd6",
+		"gray": "#95918c",
+		"greenbright": "#00ff00",
+		"green": "#1cac78",
+		"greenyellow": "#f0e891",
+		"indigo": "#4B0082",
+		"orange": "#FFA500",
+		"darkorange": "#FF8C00",
+		"redbright": "#ff0000",
+		"red": "#ee204d",
+		"redorange": "#ff5349",
+		"redviolet": "#c0448f",
+		"scarlet": "#fc2847",
+		"purple": "#800080",
+		"violetpurple": "#926eae",
+		"violetred": "#f75394",
+		"white": "#ffffff",
+		"yellow": "#fce883",
+		"yellowgreen": "#c5e384",
+		"yelloworange": "#ffb653",
+		"yellowsunshine": "#fff700"
+	}
+const values = Object.values(colors);
+export default values;

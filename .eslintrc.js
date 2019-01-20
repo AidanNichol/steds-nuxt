@@ -38,6 +38,6 @@ module.exports = {
     "comma-dangle": [0],
     strict: 2,
   },
-  globals: {}
+  globals: {},
 
 };

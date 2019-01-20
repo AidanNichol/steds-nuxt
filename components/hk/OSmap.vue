@@ -11,7 +11,7 @@
 import Vue from 'vue';
 import MapRouteControl from '~/components/hk/MapRouteControl';
 import WalksMixin from '~/components/WalksMixin';
-const colors = ['white', '#ff0000', '#0000ff', '#00ff00', '#5D4037', 'purple'];
+const colors = ['white', '#ff0000', '#0000ff', '#00ff00', '#ff8c00', '#4B0082'];
 
 export default {
   props: ['walkId', 'no'],
