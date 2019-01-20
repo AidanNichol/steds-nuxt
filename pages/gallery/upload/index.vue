@@ -60,9 +60,9 @@
 // import { upload } from './file-upload.fake.service'; // fake service
 import Authentication from '~/components/authentication';
 import { mapState } from 'vuex';
-import _ from 'lodash';
-import { upload } from './file-upload.service'; // real service
-import { wait } from './utils';
+import {pick} from 'lodash';
+import { upload } from '~/utilities/file-upload.service'; // real service
+import { wait } from '~/utilities/utils';
 import WalksMixin from '~/components/WalksMixin';
 import * as axios from 'axios';
 import { stedsServer } from '~/assets/js/config';
@@ -91,7 +91,7 @@ export default {
     ...mapState('authentication', ['state', 'role', 'name']),
     authenticated() {
       let res = this.state === 2 && this.role >= 0;
-      console.log('authenticated', _.pick(this, ['state', 'role']), res);
+      console.log('authenticated', pick(this, ['state', 'role']), res);
       return res;
     },
     isInitial() {

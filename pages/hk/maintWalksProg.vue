@@ -31,16 +31,16 @@ import PickWalk from '~/components/hk/pickWalk';
 import EditWalkData from '~/components/hk/EditWalkData';
 import walkMixins from '~/components/WalksMixin';
 import Authentication from '~/components/authentication';
-import MinutesWalkData from '~/components/hk/MinutesWalkData';
+// import MinutesWalkData from '~/components/hk/MinutesWalkData';
 import ShowMap from '~/components/library/ShowMap';
-import XDate from 'xdate';
-import _ from 'lodash';
-export default {
+import {format} from 'date-fns/fp';
+import {merge, pick , forOwn, includes} from 'lodash';
+const fmtYYMMDD = format('yyyy-MM-dd');export default {
   mixins: [walkMixins],
   components: {
     PickWalk,
     EditWalkData,
-    MinutesWalkData,
+    // MinutesWalkData,
     ShowMap,
     Authentication
   },
@@ -54,11 +54,11 @@ export default {
     console.log('maintWalkProg regions', data);
   },
   computed: {
-    ...mapState('authentication', ['state', 'role']),
+    ...mapState('authentication', ['state', 'roles']),
     authenticated() {
-      console.log('authenticated', { state: this.state, role: this.role });
-      console.log('authenticated', _.pick(this, ['state', 'role']));
-      return this.state === 2 && this.role >= 1;
+      console.log('authenticated', { state: this.state, roles: this.roles });
+      console.log('authenticated', pick(this, ['state', 'roles']));
+      return this.state === 2 && (this.roles||'').includes('tester');
     }
   },
   methods: {
@@ -76,16 +76,16 @@ export default {
         sub: data.area
       });
       const ints = ['viaTT', 'pickupGHS', 'bankHoliday'];
-      _.forOwn(data, (val, key) => {
-        if (_.includes(ints, key)) data[key] = parseInt(val);
+      forOwn(data, (val, key) => {
+        if (includes(ints, key)) data[key] = parseInt(val);
       });
-      _.merge(this.walkData, data);
+      merge(this.walkData, data);
       this.walkData.routes.splice(data.routes.length);
       console.log('newWalk', value, data);
     },
     dispDate(date) {
       if (!date) return '';
-      return new XDate(date).toString('dddd d MMMM yyyy');
+      return fmtYYMMDD(new Date(date));
     }
   },
   beforeDestroy() {

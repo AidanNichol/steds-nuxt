@@ -6,7 +6,7 @@
   </section>
 </template>
 <script>
-import { titleize } from 'underscore.string';
+const titleize  = require('titleize');
 import { mapState } from 'vuex';
 const cleanup = xx =>
   xx && titleize(xx.replace(/[_-]s[_-]/g, `'s-`).replace(/[_-]/g, ' '));

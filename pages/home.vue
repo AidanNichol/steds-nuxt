@@ -43,8 +43,7 @@
 <script>
 import { mapState } from 'vuex';
 import { getWalkData } from '~/components/WalksMixin';
-
-import XDate from 'xdate';
+import {format} from 'date-fns';
 // import axios from 'axios';
 import WalkHighlight from '~/components/WalkHighlight';
 import ShowSlides from '~/components/ShowSlides';
@@ -65,7 +64,7 @@ export default {
   },
 
   async beforeMount() {
-    let dat = new XDate().toString('yyyy-MM-dd');
+    let dat = format(new Date(), 'yyyy-MM-dd');
     let { data } = await getWalkData(`GetNextWalkData`, dat);
     this.hiWalk = data;
   },

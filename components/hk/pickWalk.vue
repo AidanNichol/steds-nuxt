@@ -2,7 +2,7 @@
   <div  class="walkPicker">
     <select v-model="currentYear"  >
       <option disabled value="">Please select a year</option>
-      <option v-for="year in years" :value="year">{{year}}</option>
+      <option v-for="year in years" :value="year" :key="year">{{year}} </option>
     </select>
     <select v-model="currentWalk">
       <option disabled value="">Please select a walk</option>
@@ -39,9 +39,9 @@
 
 <script>
 import walkMixins from '~/components/WalksMixin';
-import XDate from 'xdate';
-import _ from 'lodash';
-
+import {format, addYears, addDays, setMonth, setDate, getDay} from 'date-fns/fp';
+import {remove} from 'lodash';
+const fmtYYMMDD = format('yyyy-MM-dd');
 export default {
   mixins: [walkMixins],
   mounted() {
@@ -92,16 +92,15 @@ export default {
   },
   methods: {
     today() {
-      var dat = new XDate();
-      return dat.toString('yyyy-MM-dd');
+      return fmtYYMMDD(new Date());
     },
     reqAddYear() {
-      let dat = new XDate()
-        .addYears(1)
-        .setMonth(0)
-        .setDate(1);
-      dat.addDays(6 - dat.getDay());
-      this.addDate = dat.toString('yyyy-MM-dd');
+      let dat = new Date()
+        dat = addYears(1, dat)
+        dat = setMonth(0, dat)
+        dat = setDate(1, dat);
+      dat = addDays(6 - getDay(dat), dat);
+      this.addDate = fmtYYMMDD( dat);
       this.showAddYear = true;
     },
     reqAddWalk() {
@@ -129,7 +128,7 @@ export default {
       } catch (e) {
         this.$message({ type: 'info', message: 'Delete canceled' });
       }
-      _.remove(this.walks, w => w.date === this.currentWalk);
+      remove(this.walks, w => w.date === this.currentWalk);
       this.currentWalk = null;
     },
     async getYears() {
@@ -138,7 +137,7 @@ export default {
       this.currentYear = this.today().substr(0, 4);
     },
     async addYear() {
-      let dat = new XDate(this.addDate).toString('yyyy-MM-dd');
+      let dat = fmtYYMMDD(new Date(this.addDate));
       console.log('adding records for', dat);
       this.showAddYear = false;
       await this.getWalkData(`CreateYearsWalkDays`, dat);
@@ -147,7 +146,7 @@ export default {
       this.currentYear = newYear;
     },
     async addWalk(addDate) {
-      this.addDate = new XDate(this.addDate).toString('yyyy-MM-dd');
+      this.addDate = fmtYYMMDD(new Date(this.addDate));
       if (this.currentYear !== this.addDate.substr(0, 4)) {
         return this.$notify({
           type: 'error',

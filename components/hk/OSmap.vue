@@ -2,7 +2,7 @@
   <div>
     <div id="map" style="border: 1px solid black; width:100vw; height:800px;"></div>
     <div class="selectorRegion" v-if="osMap" >
-      <MapRouteControl v-for="lay in layers" v-if="lay.no!==0":no="lay.no" :options="lay.options" :active="lay.lgpx" :toggleRoute="toggleRoute(lay.no)" :lay="lay" :optionsChanged="changeValue(lay.no)" :key="lay.no"></MapRouteControl>
+      <MapRouteControl v-for="lay in realLayers" :no="lay.no" :options="lay.options" :active="lay.lgpx" :toggleRoute="toggleRoute(lay.no)" :lay="lay" :optionsChanged="changeValue(lay.no)" :key="lay.no"></MapRouteControl>
     </div>
   </div></template>
 
@@ -11,7 +11,6 @@
 import Vue from 'vue';
 import MapRouteControl from '~/components/hk/MapRouteControl';
 import WalksMixin from '~/components/WalksMixin';
-import _ from 'lodash';
 const colors = ['white', '#ff0000', '#0000ff', '#00ff00', '#5D4037', 'purple'];
 
 export default {
@@ -38,6 +37,9 @@ export default {
     console.log('OSMap data', ret);
     return ret;
   },
+  computed: {
+    realLayers(){return layers.filter((layer,i)=>i!==0)}
+  },
   async beforeMount() {
     try {
       let query = this.$route.query;
@@ -48,7 +50,7 @@ export default {
       this.gpxJ = res.data;
       const gpx = res.data[this.no];
       console.log('OSMap beforeMount', gpx, this.walkId, res, res.data);
-      _.assign(this, gpx);
+      Object.assign(this, gpx);
       console.log('OSMap beforeMount2', this);
       let { walkId, no, lat, lng, gpxJ, cent, end } = this;
       console.log('OSmap gpxJ', { walkId, no, cent, lat, lng, gpxJ, end });

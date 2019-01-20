@@ -18,7 +18,7 @@
 
 <script>
 import axios from 'axios';
-import XDate from 'xdate';
+import {format} from 'date-fns';
 import { stedsServer } from '~/assets/js/config';
 import WalkHighlight from '~/components/WalkHighlight';
 
@@ -51,7 +51,7 @@ export default {
         `${stedsServer}/walks/getYearsData/${year}`
       );
       console.log(data);
-      let dat = new XDate().toString('yyyy-MM-dd');
+      let dat = format(new Date(), 'yyyy-MM-dd');
       console.log({ dat });
 
       this.walksDetails = data.walksDetails;
@@ -59,7 +59,7 @@ export default {
       this.docname = data.docname;
     },
     dispDat(dat) {
-      return new XDate(dat).toString('MMM d');
+      return format(new Date(dat), 'MMM d');
     },
     toolTip(walk) {
       return `${walk.regname}, bus: ${walk.time}, org: ${

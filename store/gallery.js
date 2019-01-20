@@ -1,4 +1,3 @@
-// import _ from 'lodash';
 import { getGalleryData, imageURL } from '~/components/GalleryMixin';
 
 export const state = () => ({

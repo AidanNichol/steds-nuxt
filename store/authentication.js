@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
   stedsServer
 } from '~/assets/js/config';
-import _ from 'lodash';
+import {forEach, difference, keys} from 'lodash';
 export const state = () => ({
   ip: null,
   state: 0,
@@ -13,7 +13,7 @@ export const state = () => ({
   error: null,
   via: null,
   name: null,
-  role: null
+  roles: ''
 });
 export const actions = {
   async getAuth({
@@ -25,7 +25,7 @@ export const actions = {
     } = await axios.get(`${stedsServer}/auth/getAuth`);
 
     console.log('authtest data', data, roleReq);
-    if (data.role < roleReq && data.state > 0) {
+    if (!(data.roles||'').includes(roleReq) && data.state > 0) {
       data.error = `You don't have permission for this request`;
     }
     commit('newAuthentication', data);
@@ -57,9 +57,9 @@ export const actions = {
 export const mutations = {
   newAuthentication(state, value) {
     console.log('oldAuthentication', state);
-    _.forEach(value, (val, key) => (state[key] = val));
-    _.forEach(
-      _.difference(_.keys(state), _.keys(value)),
+    forEach(value, (val, key) => (state[key] = val));
+    forEach(
+      difference(keys(state), keys(value)),
       key => (state[key] = null)
     );
     // state.replaceState(value);

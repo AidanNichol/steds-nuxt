@@ -88,12 +88,14 @@
 <script>
 import WalksMixin from '~/components/WalksMixin';
 import { mapState } from 'vuex';
-import XDate from 'xdate';
-import _ from 'lodash';
+import {format, addWeeks, addDays} from 'date-fns/fp';
+import {cloneDeep, pickBy, keys} from 'lodash';
+const fmtYYMMDD = format('yyyy-MM-dd');
+
 export default {
   data() {
     return {
-      walk: _.cloneDeep(this.walkData),
+      walk: cloneDeep(this.walkData),
       rows: {
         special: 2,
         busRoute: 2
@@ -118,8 +120,8 @@ export default {
       console.log('changed', t.name, t.value);
     },
     defaultMapsDue() {
-      let dat = new XDate(this.walk.date).addWeeks(-6).addDays(-3);
-      this.walk.mapsDue = dat.toString('yyyy-MM-dd');
+      let dat = addDays(-3, addWeeks(-6, new Date(this.walk.date)));
+      this.walk.mapsDue = fmtYYMMDD(dat);
     },
     // mToFt(m) {
     //   return Math.round(Math.round(m * 3.28084) / 50) * 50;
@@ -136,17 +138,17 @@ export default {
       // console.log( 'autosize', name, this.rows[name], ev.target.scrollHeight, this.pixelsPerRow, ev );
     },
     async saveData() {
-      let changes = _.pickBy(
+      let changes = pickBy(
         this.walk,
         (value, key) => key !== 'routes' && value !== this.walkData[key]
       );
       console.log('walk changes', changes);
-      if (_.keys(changes).length > 0) {
+      if (keys(changes).length > 0) {
         await this.postWalkData(changes, 'UpdateWalkDetails', this.walk.date);
       }
       this.walk.routes.forEach(async (route, i) => {
         console.log('route change check', route, i, this.walkData.routes[i]);
-        let rtChanges = _.pickBy(route, (value, key) => {
+        let rtChanges = pickBy(route, (value, key) => {
           console.log(
             'route change check',
             key,
@@ -156,7 +158,7 @@ export default {
           return value !== this.walkData.routes[i][key];
         });
         console.log('~Route Changes', route.no, rtChanges);
-        if (_.keys(rtChanges).length > 0) {
+        if (keys(rtChanges).length > 0) {
           await this.postWalkData(
             rtChanges,
             'UpdateRouteArray',

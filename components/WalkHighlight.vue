@@ -15,12 +15,12 @@
 </template>
 
 <script>
-import XDate from 'xdate';
+import {format} from 'date-fns'
 export default {
   props: ['walk'],
   methods: {
     dispDate(dat) {
-      return dat && new XDate(dat).toString('dddd, d MMMM yyyy ');
+      return dat && format(new Date(dat), 'dddd, d MMMM yyyy ');
     },
     details(walk) {
       return `/programme/walkDetails?walkId=${walk.date}`;

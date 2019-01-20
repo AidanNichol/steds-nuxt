@@ -34,8 +34,9 @@
 </template>
 
 <script>
-import XDate from 'xdate';
 import WalksMixin from '~/components/WalksMixin';
+import {format, addWeeks, addDays} from 'date-fns/fp';
+const fmtYYMMDD = format('yyyy-MM-dd');
 
 export default {
   props: ['walk'],
@@ -60,7 +61,7 @@ export default {
     dispDate(date) {
       if (!date) return '';
       console.log('dispDate in ', date);
-      const ret = new XDate(date).toString('dddd d MMMM yyyy');
+      const ret = fmtYYMMDD( new Date(date));
       console.log('dispDate out', ret);
       return ret;
     }
