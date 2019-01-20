@@ -131,7 +131,7 @@ export default {
 };
 </script>
 
-<style  scoped>
+<style  lang="scss" scoped>
 .fancybox {
   position: relative;
   display: flex;
@@ -152,6 +152,7 @@ export default {
     }
     .header {
       height: 40px;
+      max-height: 40px;
       position: relative;
       text-align: left;
 
