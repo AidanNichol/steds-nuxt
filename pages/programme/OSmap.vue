@@ -4,17 +4,18 @@
     <div class="selectorRegion" v-if="osMap" >
       <MapRouteControl v-for="lay in fLayers" :no="lay.no" :options="lay.options" :active="lay.lgpx" :toggleRoute="toggleRoute(lay.no)" :lay="lay" :optionsChanged="changeValue(lay.no)" :key="lay.no"></MapRouteControl>
     </div>
+    <el-dialog title="Trying to Hide All Walks" :visible.sync="notificationVisible" >
+      <span>You must display at least one walk to satisfy the Ordnance Survey's terms and conditions</span>
+    </el-dialog>  
   </div>
 </template>
 
 <script>
 /* global OpenSpace, OpenLayers */
 import Vue from 'vue';
-
 import { mapMutations } from 'vuex';
 import MapRouteControl from '~/components/hk/MapRouteControl';
 import WalksMixin from '~/components/WalksMixin';
-import _ from 'lodash';
 const colors = ['white', '#ff0000', '#0000ff', '#00ff00', '#5D4037', 'purple'];
 
 export default {
@@ -33,6 +34,7 @@ export default {
       data: null,
       no: null,
       noRoutes: 5,
+      notificationVisible:false,
       // mHt: '60vh',
       // mWd: '100vw'
     };
@@ -57,7 +59,7 @@ export default {
   async beforeMount() {
     // this.windowResize();
     // window.onresize = this.windowResize;
-    console.log('props', this.vpHeight, this.$props);
+    console.log('props', this.vpHeight, this.$props, Notification);
     // this.$nextTick(async function() {
     try {
       let query = this.$route.query;
@@ -73,7 +75,7 @@ export default {
       });
       const gpx = res.data[this.no];
       console.log('OSMap beforeMount', gpx, this.walkId, res, res.data);
-      _.assign(this, gpx);
+      Object.assign(this, gpx);
       console.log('OSMap beforeMount2', this);
       let { walkId, no, lat, lng, gpxJ, cent, end } = this;
       console.log('OSmap gpxJ', { walkId, no, cent, lat, lng, gpxJ, end });
@@ -154,13 +156,7 @@ export default {
         );
         console.log('hide layers', this.layers, layersVisible);
         if (layersVisible > 1) this.hideLayer(no);
-        else {
-          this.$notify({
-            title: 'Hidding All Walks',
-            message: `You must display at least one walk to satisfy the Ordnance Survey's terms and conditions`,
-            type: 'warning',
-            duration: 4000,
-          });
+        else { this.notificationVisible = true;
         }
       } else this.showLayer(no);
     },
