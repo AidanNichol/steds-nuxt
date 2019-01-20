@@ -62,7 +62,6 @@ export default {
     console.log('ShowMap beforeMount', this.walkId);
     let res = await this.getWalkData('GetMapData', this.walkId);
     let walk = res.data;
-    // walk.dispDate = new XDate(walk.date).toString('dddd, d MMMM yyyy ');
     console.log('ShowMap', { walk });
     this.walk = walk;
   },
