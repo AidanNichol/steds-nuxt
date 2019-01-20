@@ -37,11 +37,11 @@
 <script type="text/javascript">
 import NavBarByYear from '~/components/library/NavBarByYear';
 import NavBarByRegion from '~/components/library/NavBarByRegion';
-import WalkDetails from '~/pages/programme/walkDetails';
+import WalkDetails from '~/components/WalkDetails';
 import ShowMap from '~/components/library/ShowMap';
 import WalksMixin from '~/components/WalksMixin';
 import banner from '~/components/bannerStEds';
-import _ from 'lodash';
+import {update, forEach} from 'lodash';
 export default {
   layout: 'full',
   mixins: [WalksMixin],
@@ -80,8 +80,8 @@ export default {
   async beforeMount() {
     let { data } = await this.getWalkData('GetWalksByRegionIndex');
     let reg = {};
-    _.forEach(data, rec => {
-      _.update(reg, [rec.regname, rec.finish], v => {
+    forEach(data, rec => {
+      update(reg, [rec.regname, rec.finish], v => {
         return [...(v || []), rec];
       });
     });
@@ -89,12 +89,12 @@ export default {
     this.walksByRegion = reg;
     data = data.sort((a, b) => a.date < b.date);
     let byYear = {};
-    _.forEach(data, rec => {
-      _.update(byYear, [rec.date.substr(0, 4)], v => {
+    forEach(data, rec => {
+      update(byYear, [rec.date.substr(0, 4)], v => {
         return [...(v || []), rec];
       });
     });
-    _.forEach(byYear, (data, year) => {
+    forEach(byYear, (data, year) => {
       byYear[year] = data.sort((a, b) => a.date.localeCompare(b.date));
     });
     console.log('walksByRegion', byYear);
