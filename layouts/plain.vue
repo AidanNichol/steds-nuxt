@@ -62,10 +62,8 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  border-top: 5px solid #bbb;
   text-align: center;
   font-family: 'Roboto', sans-serif;
-  padding-bottom: 25px;
   box-sizing: border-box;
 }
 a {

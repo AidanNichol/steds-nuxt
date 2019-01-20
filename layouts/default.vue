@@ -31,14 +31,6 @@
 import navBar from '~/components/navBarStEds';
 import banner from '~/components/bannerStEds';
 import PageHeader from '~/components/PageHeader';
-// import { stedsServer } from '~/assets/js/config';
-// import { re } from '~/assets/js/re-template-tag';
-// import { titleize } from 'underscore.string';
-// const RE_GROUP = re`(?<group>[^\/]+`;
-// const RE_NAME = re`(?<name>[^\/]+`;
-// const RE_ROUTE = re`/${RE_GROUP}\/${RE_NAME}/u`;
-// const cleanup = xx =>
-//   titleize(xx.replace(/[_-]s[_-]/g, `'s-`).replace(/[_-]/g, ' '));
 
 export default {
   components: { navBar, banner, PageHeader },

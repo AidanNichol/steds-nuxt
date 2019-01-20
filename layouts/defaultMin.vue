@@ -26,11 +26,11 @@
 <script>
 // import axios from 'axios';
 import navBar from '~/components/navBarStEds';
-import banner from '~/components/bannerStEds';
+// import banner from '~/components/bannerStEds';
 import MinPageHeader from '~/components/MinPageHeader';
 
 export default {
-  components: { navBar, banner, MinPageHeader },
+  components: { navBar, MinPageHeader },
   beforeMount() {
     // this.$store.dispatch('hydrateStore');
   },
@@ -80,7 +80,7 @@ body {
   border: 0;
   /*border-top: 5px solid #bbb;*/
   text-align: center;
-  /*padding-bottom: 25px;*/
+  padding-bottom: 0;
   box-sizing: border-box;
 }
 a,
@@ -148,7 +148,7 @@ hr {
   flex-direction: column;
   & .head {
     flex: 0 0 auto;
-    padding-top: 0.5rem;
+    padding-top: 0;
     min-height: 50px;
   }
   & .foot {
@@ -244,27 +244,7 @@ hr {
 }
 /* copied from kohsteds */
 
-@media screen {
-  // .myPage{
-  //   width:800px;
-  //   margin-left: auto;
-  //   margin-right: auto;
-  //   background: #FFFFFF;
-  // }
-}
-// .menu .inner{
-//     border-left: 1px solid #ccc;
-//     border-bottom: 1px solid #ccc;
-//     border-right: none;
-// }
-// .menu a{
-//   display: block;
-//     color: #CC3300;
-//     width:100%;
-//     font-weight: normal;
-//     letter-spacing: 1px;
-//     font-size:    x-small;
-// }
+
 
 .myFooter {
   border: 0;
