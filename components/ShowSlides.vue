@@ -1,6 +1,7 @@
 
 <template>
   <div id="showbox">
+  <NoSSR>
     <Loading
       class="slideshow"
       style="font-size:2rem; text-align:center;"
@@ -27,7 +28,7 @@
         </div>
         <div class="pic">
           <nuxt-link to="/gallery/latestPictures">
-            <no-ssr>
+            <NoSSR>
               <div class="img">
                 <img
                   class="lazyload"
@@ -36,7 +37,7 @@
                   data-sizes="auto"
                 >
               </div>
-            </no-ssr>
+            </NoSSR>
           </nuxt-link>
         </div>
         <div class="labelling">
@@ -60,17 +61,18 @@
         </div>
       </div>
     </transition-group>
+  </NoSSR>  
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import NoSsr from 'vue-no-ssr';
+import NoSSR from 'vue-no-ssr';
 import Loading from '~/components/Loading';
 
 export default {
   name: 'ShowSlides',
-  components: { 'no-ssr': NoSsr, Loading },
+  components: { NoSSR, Loading },
   // props: ['pictures'],
   mounted() {
     this.timer || this.startRotation();
@@ -101,7 +103,7 @@ export default {
   computed: {
     ...mapState(['pictures', 'curPic']),
     pic() {
-      return this.pictures[this.curPic];
+      return this.pictures[this.curPic]||{};
     },
     ctrlChar() {
       return this.test ? '&#10074;&#10074;' : '&#9658;';
@@ -120,7 +122,7 @@ export default {
           }`
         : ``;
     },
-    mapAlbum(src) {
+    mapAlbum(src='') {
       // process.env.NODE_ENV !== 'production'
       const loc = `http://www.stedwardsfellwalkers.co.uk/gallery/albums`;
       return src.replace(/albums/g, loc);
