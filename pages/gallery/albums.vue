@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <NoSSR>
-      <div class="gallery">
+    <div class="gallery">
+      <NoSSR>
         <ul class="years" v-show="yearList">
           <li
             class="item"
@@ -42,9 +41,8 @@
             <br>Photos
           </nuxt-link>
         </div>
-      </div>
-    </NoSSR>
-  </div>
+      </NoSSR>
+    </div>
 </template>
 <script>
 import galleryMixin, { getGalleryData } from '~/components/GalleryMixin';
@@ -63,24 +61,9 @@ export default {
     await this.$store.dispatch('gallery/getYears');
     let res = await getGalleryData('AlbumList');
     let albums = res.data;
-    // albums.dispDate = new XDate(albums.date).toString('dddd, d MMMM yyyy ');
-    // console.log({ albums });
     this.albums = albums;
-    // return { albums };
-    // Lightbox = require('~/components/vue-images/lightbox');
   },
   mounted() {
-    // const that = this;
-    // console.log('mounted', that, this);
-    // window.addEventListener(
-    //   'mouseover',
-    //   function onFirstHover() {
-    //     // that.$store.commit('userCanHover');
-    //     window.USER_CAN_HOVER = true;
-    //     window.removeEventListener('mouseover', onFirstHover, false);
-    //   },
-    //   false
-    // );
   },
   components: { Lightbox, NoSSR },
   // layout: 'full',
