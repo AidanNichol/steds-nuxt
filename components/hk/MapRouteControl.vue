@@ -13,10 +13,10 @@
   <el-dialog :visible.sync="showEdit" :title="'Edit stroke for Walk '+no" show-close>
     <el-form :model="options" @submit.native.prevent>
       <el-form-item label="Stroke Width" label-width="9em">
-        <el-slider v-model="options.strokeWidth" :step="1" @change="widthChanged" :max="20" show-stops />
+        <el-slider v-model="options.strokeWidth" :step="1" @change="widthChanged" :min="2" :max="20" show-stops />
       </el-form-item>
       <el-form-item label="Opacity" label-width="9em">
-        <el-slider v-model="options.strokeOpacity" :step="0.1" @change="opacityChanged" :max="1" show-stops />
+        <el-slider v-model="options.strokeOpacity" :step="0.1" @change="opacityChanged" :min="0.2" :max="1" show-stops />
       </el-form-item>
       <el-form-item label="Colour" label-width="9em">
         <el-color-picker
@@ -80,12 +80,12 @@ export default {
   },
 };
 </script>
-
 <style lang="css">
+/* https://www.templatemonster.com/blog/create-pure-html-css-tooltip/ */
 .tooltip {
     position: relative;
-}
-.tooltip:after {
+
+  &:after {
     position: absolute;
     padding: 8px;
     border: 3px solid #000;
@@ -98,37 +98,39 @@ export default {
     min-width: 80px;
     bottom: 150%;
     left: 0;
-    /* width: -moz-max-content; */
-    /* width: -webkit-max-content; */
     opacity: 0;
     transition: all .2s ease-in-out .25s;
     visibility: hidden;
     z-index: 2;
-}
-.tooltip:hover:after {
-    opacity: 1;
-    visibility: visible;
-    bottom: 120%;
-}
-.tooltip:before {
-    content: "";
-    display: block;
-    position: absolute;
-    border-width: 7px;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0);
-    opacity: 0;
-    transition: all .2s ease-in-out .25s;
-    top: -51%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-top-color: #000;
-    visibility: hidden;
-}
-.tooltip:hover:before {
-    opacity: 1;
-    top: -21%;
-    visibility: visible;
+  }
+  &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      border-width: 7px;
+      border-style: solid;
+      border-color: rgba(0, 0, 0, 0);
+      opacity: 0;
+      transition: all .2s ease-in-out .25s;
+      top: -51%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-top-color: #000;
+      visibility: hidden;
+  }
+  &:hover{
+    &:after {
+        opacity: 1;
+        visibility: visible;
+        bottom: 120%;
+    }
+    &:before {
+        opacity: 1;
+        top: -21%;
+        visibility: visible;
+    }
+
+  }
 }
 .el-button-group {
   margin-right: 0.5em;
