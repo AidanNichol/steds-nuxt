@@ -23,7 +23,7 @@ export const actions = {
   async getAlbum({ commit }, album) {
     commit('setAlbum', album);
     let { data } = await getGalleryData('getAlbum', album);
-    console.log('getAlbums data',album, data);
+    // console.log('getAlbums data',album, data);
     data.forEach(pic => {
       pic.imageUrl = imageURL(pic, 'normal');
       pic.thumbUrl = imageURL(pic, 'thumb');
