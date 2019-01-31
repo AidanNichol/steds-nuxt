@@ -91,7 +91,9 @@ export default {
   border: 3px solid #cc9999;
   padding: 6px;
   width: 400px;
-  columns: 180px 2;
+  max-width: 100%;
+
+  columns: 150px 2;
   column-rule: 3px solid #cc9999;
   font-size: x-small;
 }
