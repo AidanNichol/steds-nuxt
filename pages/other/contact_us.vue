@@ -22,12 +22,12 @@
       <td>0191 259 0173<br/><MailToLink to="bookings@stedwardsfellwalkers.co.uk"/>
       </td>
     </tr> <tr class="head"><td colspan="2"><strong>Membership Secretary</strong></td></tr>
-    <tr class="entry"><td>Val Davis<br/></td>
-      <td>0191 251 5591<br/><MailToLink to="membership@stedwardsfellwalkers.co.uk"/>
+    <tr class="entry"><td>Ray Salkeld<br/></td>
+      <td>0191 253 1989<br/><MailToLink to="membership@stedwardsfellwalkers.co.uk"/>
       </td>
     </tr>
     <tr class="head"><td colspan="2"><strong>Social Secretary</strong></td></tr>
-    <tr class="entry"><td>Sue Kerrison<br/></td>
+    <tr class="entry"><td>Judith Green<br/></td>
       <td><MailToLink to="social@stedwardsfellwalkers.co.uk"/></td>
     </tr>
 
