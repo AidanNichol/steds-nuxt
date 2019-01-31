@@ -21,7 +21,7 @@
             :data-count="album.count"
             data-len="album.title.length"
           >
-            <div>{{album.title}}</div>
+            <div>{{String(album.title).replace(/&amp;/gi, '&')}}</div>
           </li>
         </ul>
         <div class="pictures">
@@ -60,7 +60,7 @@ export default {
     await getGalleryData('getYears');
     await this.$store.dispatch('gallery/getYears');
     let res = await getGalleryData('AlbumList');
-    let albums = res.data;
+    let albums = res.data.map(alb=>{alb.album = alb.album.replace('&amp;', '&'); return alb;});
     this.albums = albums;
   },
   mounted() {
