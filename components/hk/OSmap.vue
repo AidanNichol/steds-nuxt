@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <div id="map" style="border: 1px solid black; width:100vw; height:800px;"></div>
-    <div class="selectorRegion" v-if="osMap" >
+    <div class="selectorRegion screenonly" v-if="osMap" >
       <MapRouteControl v-for="lay in realLayers" :no="lay.no" :options="lay.options" :active="lay.lgpx" :toggleRoute="toggleRoute(lay.no)" :lay="lay" :optionsChanged="changeValue(lay.no)" :key="lay.no"></MapRouteControl>
     </div>
   </div></template>

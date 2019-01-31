@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="osmap" >
     <div id="map" :style="{border: '1px solid black'}"></div>
-    <div class="selectorRegion" v-if="osMap" >
+    <div class="selectorRegion screenonly" v-if="osMap" >
       <MapRouteControl v-for="lay in fLayers" :no="lay.no" :options="lay.options" :active="lay.lgpx" :toggleRoute="toggleRoute(lay.no)" :lay="lay" :optionsChanged="changeValue(lay.no)" :key="lay.no"></MapRouteControl>
     </div>
     <el-dialog title="Trying to Hide All Walks" :visible.sync="notificationVisible" >
@@ -236,5 +236,8 @@ export default {
 .selectorRegion {
   padding: 3px;
   background-color: #ccc;
+}
+@media print{
+  .screenonly{display:none;}
 }
 </style>
