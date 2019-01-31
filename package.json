@@ -16,7 +16,6 @@
     "re-template-tag": "^2.0.1",
     "titleize": "^1.0.1",
     "vue-i18n": "^8.6.0",
-    "vue-intersect": "^1.1.2",
     "vue-no-ssr": "^1.1.1"
   },
   "scripts": {

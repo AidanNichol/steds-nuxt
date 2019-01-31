@@ -1,8 +1,9 @@
 <template>
-
+  <nuxt-link to="/">
   <div class="banner">
-    <a href="/" title="St. Edward's - Home.">St. Edward's ABC Fellwalkers</a>
+    <span>St. Edward's ABC Fellwalkers</span>
   </div>
+  </nuxt-link>
 </template>
 
 <script>
@@ -34,12 +35,13 @@ export default {};
   align-content: center;
 
 
-  & a {
+  & span {
     text-decoration: none;
     display:block;
     height:auto;
     line-height: 1;
     align-self: center;
+    color: #CC3300;
   }
 }
 .bannerS{
