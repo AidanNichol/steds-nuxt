@@ -1,4 +1,130 @@
+<template>
+  <div class="page">
+    <div class="section blocks">
+      <div class="nextwalk">
+        <h3>Next Walk</h3>
+        <WalkHighlight :walk="nextWalk"/>
+      </div>
+      <ShowSlides class="slides"/>
+      <!-- <ShowSlidesAgile class=" slides" /> -->
+      <!-- <?=$eventDetails?> -->
+    </div>
+
+    <div class="section content">
+      <p>Welcome to the web site of St. Edward's ABC Fellwalkers.</p>
+      <p>
+        We are an all-weather, all-year round walking club based on
+        northeast Tyneside.&nbsp; Walks take
+        place every other Saturday in areas such as Northumberland,
+        Durham, Cumbria, Scotland, and both the Yorkshire Dales and
+        Moors.
+      </p>
+      <p>
+        There is usually a choice of four walks, which vary in
+        distance and height to cater for the individual walkers
+        requirements.
+      </p>
+      <hr>
+      <p>
+        All you need is a strong pair of boots, waterproofs and a
+        rucksack.&nbsp; Sorry we can't guarantee the weather but
+        we can guarantee a warm welcome as St. Edward's is a friendly
+        club with a lively social life for those who are interested,
+        which includes Barbeques, Discos, Bowling etc.
+      </p>
+      <hr>
+      <p>
+        Follow the links on the right hand side to find out more about the club
+        and our activities
+      </p>
+    </div>
+  </div>
+</template>
 <script>
-import About from '~/pages/home';
-export default About;
+import { mapState } from 'vuex';
+import { getWalkData } from '~/components/WalksMixin';
+import {format} from 'date-fns';
+// import axios from 'axios';
+import WalkHighlight from '~/components/WalkHighlight';
+import ShowSlides from '~/components/ShowSlides';
+export default {
+  head(){return { title:'Home', }},
+  layout: 'default',
+  components: {
+    WalkHighlight,
+    ShowSlides,
+  },
+  data() {
+    return {
+      hiWalk: {},
+    };
+  },
+
+  computed: {
+    ...mapState(['pictures', 'curPic', 'nextWalk']),
+  },
+
+  async beforeMount() {
+    let dat = format(new Date(), 'yyyy-MM-dd');
+    console.log('home beforeMount check', dat, this.nextWalk.date, this.nextWalk)
+    if (this.nextWalk.date >= dat ) return;
+    let { data } = await getWalkData(`GetNextWalkData`, dat);
+    this.$store.commit('setNextWalk', data);
+    console.log('home beforeMount nextWalk', this.nextWalk)
+
+    // this.nextWalk = data;
+  },
+};
 </script>
+<style lang="scss" scoped>
+.nextwalk {
+  border: 3px solid #cc9999;
+  margin: 0 1px;
+  padding: 0 0 2px 2px;
+}
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // flex-wrap: wrap;
+}
+
+.section {
+  width: 100%;
+  // height: 300px;
+  // display: flex;
+  // flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &.blocks {
+    width: 100%;
+    max-width: 340px;
+    overflow-x: hidden;
+  }
+}
+.content {
+  height: auto;
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 400px) {
+  body {
+    background-color: #f09a9d; /* Red */
+  }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 650px) {
+  .page {
+    display: block;
+
+    .blocks {
+      float: right;
+      margin: 2px;
+      max-width: 340px;
+      /*border: 1px solid red;*/
+      position: relative;
+    }
+  }
+}
+</style>
