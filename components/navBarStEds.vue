@@ -18,8 +18,9 @@
     <NavLink to="/Walk_Organization/organizer_s_guidelines">Organizer's Guidelines</NavLink>
 
     <p>Programme</p>
-    <NavLink v-for="year in linkYears" :to="'/programme/year?year='+year" :key="year">{{year}} Walks</NavLink>
-    <!-- <NavLink to="/programme/year?year=2017">2017 Walks</NavLink> -->
+    <!-- <NavLink v-for="year in linkYears" :to="'/programme/year?year='+year" :key="year">{{year}} Walks</NavLink> -->
+    <NavLink to="/programme/year?year=2019">2019 Walks</NavLink>
+    <NavLink to="/programme/year?year=2018">2018 Walks</NavLink>
     <NavLink to="/programme/library">Walks Library</NavLink>
     <NavLink to="/programme/otherEvents">Other Events</NavLink>
 
@@ -46,16 +47,16 @@ export default {
   components: { NavLink },
   mixins: [WalksMixin],
   computed: {
-    ...mapState(['years']),
-    linkYears() {
-      return this.years.slice(0, 2);
-    },
+    // ...mapState(['years']),
+    // linkYears() {
+    //   return this.years.slice(0, 2);
+    // },
   },
-  async beforeMount() {
-    if (this.years.length > 0) return;
-    let { data } = await this.getWalkData('GetYears');
-    this.$store.commit('setYears', data);
-  },
+  // async beforeMount() {
+  //   if (this.years.length > 0) return;
+  //   let { data } = await this.getWalkData('GetYears');
+  //   this.$store.commit('setYears', data);
+  // },
 };
 </script>
 <style >
