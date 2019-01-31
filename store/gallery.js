@@ -16,13 +16,14 @@ export const actions = {
   async getAlbums({ commit }, year) {
     commit('setYear', year);
     let { data } = await getGalleryData('getAlbums', year);
-    // console.log('getAlbums data', data);
+    data.forEach(alb=>{alb.title = alb.title.replace('&amp;', '&')});
+
     commit('setAlbumList', data);
   },
   async getAlbum({ commit }, album) {
     commit('setAlbum', album);
     let { data } = await getGalleryData('getAlbum', album);
-    // console.log('getAlbums data', data);
+    console.log('getAlbums data',album, data);
     data.forEach(pic => {
       pic.imageUrl = imageURL(pic, 'normal');
       pic.thumbUrl = imageURL(pic, 'thumb');
