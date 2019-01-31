@@ -78,7 +78,7 @@ export default {
   // }
 };
 </script>
-<style>
+<style lang="scss">
 :root {
   --badge: {
     position: absolute;
@@ -129,9 +129,7 @@ hr {
   margin-start: auto;
   margin-end: auto;
 }
-</style>
 
-<style lang="scss" >
 * {
   margin: 0;
   padding: 0;
@@ -142,6 +140,7 @@ hr {
   width: 100%;
   text-align: right;
   cursor: pointer;
+  
   img {
     display: inline-block;
     width: 1.2em;
@@ -238,27 +237,7 @@ hr {
 }
 /* copied from kohsteds */
 
-@media screen {
-  // .myPage{
-  //   width:800px;
-  //   margin-left: auto;
-  //   margin-right: auto;
-  //   background: #FFFFFF;
-  // }
-}
-// .menu .inner{
-//     border-left: 1px solid #ccc;
-//     border-bottom: 1px solid #ccc;
-//     border-right: none;
-// }
-// .menu a{
-//   display: block;
-//     color: #CC3300;
-//     width:100%;
-//     font-weight: normal;
-//     letter-spacing: 1px;
-//     font-size:    x-small;
-// }
+
 
 .myFooter {
   border: 0;
@@ -291,94 +270,7 @@ hr {
 .main ul ul > li {
   list-style-image: url(~assets/image/innerlistblack.gif);
 }
-// table.headed tr.head{
-//   background-color:#BBBBBB;
-// }
-// table.headed tr {
-//   background-color:none;
-// }
-// table.headed tr td{
-//   padding: 3px 10px 3px 10px;
-// }
-// table.headed tr.entry td{
-//   height: 40px;
-//   vertical-align: middle;
-// }
-/*.walk {
-   margin: 3% 0 0 0;
-   padding-right:3px;
-  border: 2px solid #CC9999;
-  overflow:visible;
-}
-.walk .routeHeading{
-    text-align:center;
-}
 
-
-.walkx img {
-    position:relative;
-    left:-10px;
-    float:right;
-}*/
-
-// #hiWalk.nextwalk {
-//     float: right;
-// }
-// #hiWalk {
-//   margin:2px auto;
-//   padding: 6px;
-//   border: 3px solid #CC9999;
-//   width: 320px;
-// }
-// #hiWalk h3{
-//   padding:0;
-// }
-
-/*#walkData{
-  padding:5px;
-}
-
-
-
-#walkData #walkDetail p.area {
-  color: #333333;
-  font-size: xx-large;
-}
-#walkDetail p {
-  padding:0;
-  margin: 0;
-  font-weight: bold
-}
-#walkDetail p span {
-    display: inline;
-  color: #999999;
-}*/
-/*#programme{
-  margin:5px;
-}
-#programme .inner{
-  border:thin solid black;
-}
-#programme .last .inner{
-  border-left:0;
-    font-size:small;
-}
-#programme .inner div {
-    line-height:1.7em;
-    font-size:x-small;
-}
-#programme .inner div span{
-    font-size:x-small;
-    display:inline-block;
-    width:43px;
-    padding-left:3px;
-}
-#programme .inner div.detailsN a{
-    color:tan;
-}
-#programme .inner div a{
-    font-weight:normal;
-}*/
 .eventsPage {
   padding: 10px 5px;
 }
@@ -426,6 +318,8 @@ hr {
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
+
+    .screenonly{display:none;}
   }
   .screenonly,
   .col-right,
@@ -435,9 +329,8 @@ hr {
     display: none;
   }
   .myPage {
-    max-width: 700px;
-    width: 700px;
-    /*width:597px !important;*/
+    max-width: 100vw;
+    width: 100vw;
     background: #ffffff;
   }
   .head .banner {

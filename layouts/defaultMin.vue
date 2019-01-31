@@ -1,10 +1,11 @@
 <template>
-  <div class="page myPage hideableMenu fullWidth">
-    <div class="head mToggle screenonly" @click="toggleMenu">
+  <div class="page myPage hideableMenu fullWidth defaultMin">
+    <div class="head mToggle" @click="toggleMenu">
       <img class="logo" src="~/assets/image/St.EdwardsLogoSimple.svg" alt>
       <MinPageHeader/>
-      <img class="border" v-if="menuHidden" src="~/assets/image/menu.svg" alt>
-      <img class="border" v-else src="~/assets/image/icon-Cancel.svg" alt>
+      <img class="border screenonly" v-if="menuHidden" src="~/assets/image/menu.svg" alt>
+      <img class="border screenonly" v-else src="~/assets/image/icon-Cancel.svg" alt>
+      <span class="printonly">&nbsp;</span>
     </div>
     <div class="body">
       <div class="main">
@@ -134,6 +135,16 @@ hr {
       border-radius: 0.1em;
       // height: 1.2em;
     }
+    &.screenonly{
+      @media print {
+        display: none;
+      }
+    }
+    &.printonly{
+      @media screen {
+        display: none;
+      }
+    }
     &.logo {
       width: 2em;
     }
@@ -255,5 +266,10 @@ hr {
   text-align: left;
   clear: both;
   font-size: x-small;
+}
+@media print {
+  .mToggle .screenonly{
+    display:none;
+  }
 }
 </style>

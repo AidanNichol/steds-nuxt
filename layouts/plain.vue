@@ -53,6 +53,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
   background: #FFFFFF;
+  max-width: 100%;
 }
 
 }
