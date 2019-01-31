@@ -1,6 +1,12 @@
 <template>
   <div id="upload">
-    <Authentication roleReq="0"/>
+    <div v-if="!authenticated">
+      The uploading of photographs to the website is restricted to authorised
+      members who can use the form below to log in.
+      </div>
+    <Authentication roleReq="uploader"/>
+      <div v-if="!authenticated">Authorization for this function can be requested via the chairman.
+    </div>
     <div class="container" v-if="authenticated">
       <!--UPLOAD-->
       <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
@@ -88,10 +94,10 @@ export default {
   },
   components: { Authentication },
   computed: {
-    ...mapState('authentication', ['state', 'role', 'name']),
+    ...mapState('authentication', ['state', 'roles', 'name']),
     authenticated() {
-      let res = this.state === 2 && this.role >= 0;
-      console.log('authenticated', pick(this, ['state', 'role']), res);
+      let res = this.state === 2 && this.roles.includes('uploader') >= 0;
+      console.log('authenticated', pick(this, ['state', 'roles']), res);
       return res;
     },
     isInitial() {
