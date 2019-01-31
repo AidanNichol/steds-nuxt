@@ -39,10 +39,6 @@ module.exports = {
         rel: 'stylesheet',
         href: 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'
       }
-      // {
-      //   type: 'text/javascript',
-      //   href: 'lazysizes/lazysizes.min.js',
-      // }
     ]
   },
   modules: [
@@ -50,7 +46,7 @@ module.exports = {
   ],
 
   elementUI: {
-    components: ['Button', 'ButtonGroup', 'Dialog', 'Slider', 'Input', 'InputNumber', 'Select', 'Option', 'Form', 'FormItem', 'ColorPicker'],
+    components: ['Button', 'ButtonGroup', 'Dialog', 'Slider', 'Input', 'Select', 'Option', 'Form', 'FormItem', 'ColorPicker'],
     // locale: 'gb',
   },
   /*
@@ -69,7 +65,6 @@ module.exports = {
       'element-ui/lib/theme-chalk/dialog.css',
       'element-ui/lib/theme-chalk/slider.css',
       'element-ui/lib/theme-chalk/input.css',
-      'element-ui/lib/theme-chalk/input-number.css',
       'element-ui/lib/theme-chalk/select.css',
       'element-ui/lib/theme-chalk/option.css',
       'element-ui/lib/theme-chalk/form.css',
@@ -78,7 +73,7 @@ module.exports = {
    ],
 
   build: {
-    analyze: true,
+    analyze: false,
     postcss: {
 
       preset: {
@@ -92,14 +87,8 @@ module.exports = {
 
       }
     },
-    // ssr: false,
-    // postcss: [require('postcss-cssnext')()],
     babel: {
       plugins: ['lodash', 'syntax-optional-chaining']
-      // plugins: ['lodash']
     }
-    // extend(config, ctx) {
-    //   console.log(util.inspect(config, false, null));
-    // }
   }
 };
