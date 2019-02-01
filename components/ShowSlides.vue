@@ -28,7 +28,6 @@
         </div>
         <div class="pic">
           <nuxt-link to="/gallery/latestPictures">
-            <NoSSR>
               <div class="img">
                 <img
                   class="lazyload"
@@ -37,7 +36,6 @@
                   data-sizes="auto"
                 >
               </div>
-            </NoSSR>
           </nuxt-link>
         </div>
         <div class="labelling">
