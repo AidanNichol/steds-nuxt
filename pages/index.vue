@@ -43,8 +43,6 @@
 <script>
 import { mapState } from 'vuex';
 import { getWalkData } from '~/components/WalksMixin';
-import {format} from 'date-fns';
-// import axios from 'axios';
 import WalkHighlight from '~/components/WalkHighlight';
 import ShowSlides from '~/components/ShowSlides';
 export default {
@@ -54,25 +52,9 @@ export default {
     WalkHighlight,
     ShowSlides,
   },
-  data() {
-    return {
-      hiWalk: {},
-    };
-  },
 
   computed: {
     ...mapState(['pictures', 'curPic', 'nextWalk']),
-  },
-
-  async beforeMount() {
-    let dat = format(new Date(), 'yyyy-MM-dd');
-    console.log('home beforeMount check', dat, this.nextWalk.date, this.nextWalk)
-    if (this.nextWalk.date >= dat ) return;
-    let { data } = await getWalkData(`GetNextWalkData`, dat);
-    this.$store.commit('setNextWalk', data);
-    console.log('home beforeMount nextWalk', this.nextWalk)
-
-    // this.nextWalk = data;
   },
 };
 </script>
