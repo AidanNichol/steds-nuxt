@@ -78,10 +78,6 @@ export default {
     &:first-child {
       margin-top: 0;
     }
-
-    // &::after {
-    //   content: "-----------------"
-    // }
   }
 
   & a {
